@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+#wrap{
+	width:550px;
+	margin-left:auto;
+	margin-right:auto;
+	text-align:center;
+}
+
+#title{
+	font-weight: bold;
+}
