@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="jsp.member.model.MemberBean"%>
+<%@ page import="jsp.member.model.MemberDAO"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,23 +12,18 @@
 <body>
 	<%
 		request.setCharacterEncoding("UTF-8");
-
-	String id = request.getParameter("id");
-	String password = request.getParameter("password");
-	String name = request.getParameter("name");
-
-	String[] gender = request.getParameterValues("gender");
-
-	String[] birthmm = request.getParameterValues("birthmm");
-	String birthdd = request.getParameter("birthdd");
-	String birthyy = request.getParameter("birthyy");
-
-	String email1 = request.getParameter("email1");
-	String[] email2 = request.getParameterValues("email2");
-
-	String phone = request.getParameter("phone");
-	String address = request.getParameter("address");
 	%>
+
+
+	<jsp:useBean id="memberBean" class="jsp.member.model.MemberBean"></jsp:useBean>
+	<jsp:setProperty property="*" name="memberBean" />
+
+	<%
+	MemberDAO dao = MemberDAO.getInstance();
+	System.out.println("After get dao:"+dao);
+	dao.insertMember(memberBean);
+	%>
+
 
 	<div id="wrap">
 		<br> <br> <b> <font size="6" color="darkgrey">Welcome!</font>
@@ -36,49 +33,36 @@
 	<table>
 		<tr>
 			<td id=title>ID</td>
-			<td><%=id%></td>
+			<td><%=memberBean.getId()%></td>
 		</tr>
 		<tr>
 			<td id=title>Password</td>
-			<td><%=password%></td>
+			<td><%=memberBean.getPassword()%></td>
 		</tr>
 		<tr>
 			<td id=title>Name</td>
-			<td><%=name%></td>
+			<td><%=memberBean.getName()%></td>
 		</tr>
 		<tr>
 			<td id=title>Gender</td>
-			<td>
-				<%
-					for (String g : gender) {
-					out.println(g);
-				}
-				%>
-			</td>
+			<td><%=memberBean.getGender()%></td>
 		</tr>
 		<tr>
 			<td id=title>Birth</td>
-			<td><%=birthdd%> . <%
-				for (String mm : birthmm) {
-				out.println(mm);
-			}
-			%> . <%=birthyy%></td>
+			<td><%=memberBean.getBirthdd()%>. <%=memberBean.getBirthmm()%>.
+				<%=memberBean.getBirthyy()%></td>
 		</tr>
 		<tr>
 			<td id=title>E-Mail</td>
-			<td><%=email1%><%
- 	for (String e : email2) {
- 	out.println("@" + e);
- }
- %></td>
+			<td><%=memberBean.getMail1()%>@<%=memberBean.getMail2()%></td>
 		</tr>
 		<tr>
 			<td id=title>Phone</td>
-			<td><%=phone%></td>
+			<td><%=memberBean.getPhone()%></td>
 		</tr>
 		<tr>
 			<td id=title>Address</td>
-			<td><%=address%></td>
+			<td><%=memberBean.getAddress()%></td>
 		</tr>
 	</table>
 	<br>
