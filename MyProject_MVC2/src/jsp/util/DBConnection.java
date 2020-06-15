@@ -1,28 +1,80 @@
 package jsp.util;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
+import java.sql.Statement;
 
 public class DBConnection {
 
-	public static Connection getConnection() throws SQLException, NamingException, ClassNotFoundException {
-		Context initCtx = new InitialContext();
+	private static final String db_username = "root";
+	private static final String db_password = "111111";
+	private static final String db_url = "jdbc:mysql://localhost:3306/mydb?useUnicode=true&characterEncoding=UTF-8";
 
-		// initCtx의 lookup메서드를 이용해서 "java:comp/env" 에 해당하는 객체를 찾아서 evnCtx에 삽입
-		Context envCtx = (Context) initCtx.lookup("java:comp/env");
+	private static DBConnection instance;
 
-		// envCtx의 lookup메서드를 이용해서 "jdbc/MySQLDS"에 해당하는 객체를 찾아서 ds에 삽입
-		DataSource ds = (DataSource) envCtx.lookup("jdbc/mysqld");
+	public static DBConnection getInstance() {
+		if (instance == null) {
+			instance = new DBConnection();
+		}
+		return instance;
+	}
 
-		// getConnection메서드를 이용해서 커넥션 풀로 부터 커넥션 객체를 얻어내어 conn변수에 저장
-		Connection conn = ds.getConnection();
+	private DBConnection() {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public Connection getConnection() throws SQLException {
+		Connection conn = DriverManager.getConnection(db_url, db_username, db_password);
 		return conn;
+	}
 
+	public static void close(Connection con) {
+		try {
+			if (con != null) {
+				con.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
+	}
+
+	public static void close(Statement stmt) {
+		try {
+			if (stmt != null) {
+				stmt.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public static void close(PreparedStatement pstmt) {
+		try {
+			if (pstmt != null) {
+				pstmt.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public static void close(ResultSet rs) {
+		try {
+			if (rs != null) {
+				rs.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

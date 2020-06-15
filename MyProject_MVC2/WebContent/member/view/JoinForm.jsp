@@ -5,9 +5,15 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
-<link href="../../css/style.css" rel="stylesheet" type="text/css" />
-
+<style type="text/css">
+table {
+	margin-left: auto;
+	margin-right: auto;
+}
+#title {
+	font-weight: bold;
+}
+</style>
 <script type="text/javascript">
 	function checkValue() {
 		if (!document.userInfo.id.value) {
@@ -33,17 +39,24 @@
 			document.getElementById('sametext').innerHTML = "P/W Different.";
 		}
 	}
+
+	function goFirstForm() {
+		location.href = "MainForm.jsp";
+	}
 </script>
 
 </head>
 <body>
-	<div id="wrap">
-		<br> <br> <b> <font size="6" color="darkgrey">Sign
-				Up</font>
-		</b> <br> <br> <br>
-	</div>
-	<form method="POST" action="../pro/JoinPro.jsp" name="userInfo"
-		onsubmit="return checkValue()">
+	<br>
+	<br>
+	<b> <font size="6" color="darkgrey">Sign Up</font>
+	</b>
+	<br>
+	<br>
+	<br>
+	<form method="post"
+		action="MainForm.jsp?contentPage=member/pro/JoinPro.jsp"
+		name="userInfo" onsubmit="return checkValue()">
 		<table>
 			<tr>
 				<td id="title">ID</td>
@@ -117,10 +130,8 @@
 			</tr>
 
 		</table>
-		<div id="wrap">
-			<br> <input type="submit" value="Complete"> <input
-				type="button" value="Cancel">
-		</div>
+		<br> <input type="submit" value="Complete"> <input
+			type="button" value="Cancel" onclick="goFirstForm()">
 	</form>
 
 
