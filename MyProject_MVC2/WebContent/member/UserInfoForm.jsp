@@ -2,7 +2,7 @@
 <%@page import="jsp.member.model.MemberDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,57 +31,58 @@ table {
 </script>
 </head>
 <body>
-	<%
+	<%-- <%
 		request.setCharacterEncoding("UTF-8");
 	String id = session.getAttribute("sessionID").toString();
 	MemberDAO dao = new MemberDAO();
 	MemberBean memberBean = dao.getUserInfo(id);
-	%>
+	%> --%>
+
 	<br>
 	<br>
 	<b><font size="6" color="darkgrey">My Info</font></b>
 	<br>
 	<br>
 	<br>
+	<c:set var="member" value="${requestScope.memberInfo}" />
 	<table>
 		<tr>
 			<td id="title">ID</td>
-			<td><%=memberBean.getId()%></td>
+			<td>${member.id}</td>
 		</tr>
 
 		<tr>
 			<td id="title">Password</td>
-			<td><%=memberBean.getPassword()%></td>
+			<td>${member.password}</td>
 		</tr>
 
 		<tr>
 			<td id="title">Name</td>
-			<td><%=memberBean.getName()%></td>
+			<td>${member.name}</td>
 		</tr>
 
 		<tr>
 			<td id="title">Gender</td>
-			<td><%=memberBean.getGender()%></td>
+			<td>${member.gender}</td>
 		</tr>
 
 		<tr>
 			<td id="title">Birth</td>
-			<td><%=memberBean.getBirthyy()%>년 <%=memberBean.getBirthmm()%>월
-				<%=memberBean.getBirthdd()%>일</td>
+			<td>${member.birthyy}.${member.birthmm}.${member.birthdd}</td>
 		</tr>
 
 		<tr>
 			<td id="title">E-Mail</td>
-			<td><%=memberBean.getMail1()%>@ <%=memberBean.getMail2()%></td>
+			<td>${member.mail1}@${member.mail2}</td>
 		</tr>
 
 		<tr>
 			<td id="title">Phone</td>
-			<td><%=memberBean.getPhone()%></td>
+			<td>${member.phone}</td>
 		</tr>
 		<tr>
 			<td id="title">Address</td>
-			<td><%=memberBean.getAddress()%></td>
+			<td>${member.address}</td>
 		</tr>
 	</table>
 

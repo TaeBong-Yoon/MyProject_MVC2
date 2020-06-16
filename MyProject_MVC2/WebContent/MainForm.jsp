@@ -1,12 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%
+	<!-- https://sjh836.tistory.com/136 - jstl 사용법 참고 -->
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%-- <%
+JSTL, EL 로 대체함
 	request.setCharacterEncoding("UTF-8");
 	String contentPage = request.getParameter("contentPage");
 if (contentPage == null) {
 	contentPage = "FirstView.jsp";
 }
-%>
+%> --%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,10 +60,14 @@ if (contentPage == null) {
 			<jsp:include page="Header.jsp" />
 		</div>
 		<div id="main">
-			<jsp:include page="<%=contentPage%>" />
+			<c:set var="contentPage" value="${param.contentPage}"/>
+			<c:if test="${contentPage==null }">
+				<jsp:include page="FirstView.jsp" />
+			</c:if>
+			<jsp:include page="${contentPage}" />
 		</div>
 		<div id="footer">
-			<jsp:include page="Footer.jsp"></jsp:include>
+			<jsp:include page="Footer.jsp" />
 		</div>
 	</div>
 

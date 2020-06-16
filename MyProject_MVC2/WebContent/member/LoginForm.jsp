@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,7 +64,7 @@ table {
 			type="button" value="Cancel" onclick="goFirstForm()" />
 	</form>
 
-	<%
+	<%-- <%
 		String message = request.getParameter("message");
 	if (message != null && message.equals("0")) {
 		out.println("<br>");
@@ -71,7 +72,23 @@ table {
 	} else if (message != null && message.equals("-1")) {
 		out.println("<br>");
 		out.println("<font color='red' size='5'>Check your ID!</font>");
-	}
-	%>
+	} 
+	아래 EL JSTL로 변경
+	%> --%>
+
+	<c:set var="failMessage" value="${requesetScope.fail}" />
+	<c:if test="${failMessage!=null}">
+		<c:choose>
+			<c:when test="${failMessage=='0'}">
+				<br>
+				<font color='red' size='5'>Check your Password!</font>
+			</c:when>
+			<c:otherwise>
+				<br>
+				<font color='red' size='5'>Check your ID!</font>
+			</c:otherwise>
+		</c:choose>
+	</c:if>
+
 </body>
 </html>
