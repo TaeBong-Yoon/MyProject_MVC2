@@ -51,7 +51,7 @@ public class MemberController extends HttpServlet {
 		Action action = null;
 
 		// 보여줄 화면의 URL
-		String form = "MainForm.jsp?contentPage=member/";
+		String form = "MainForm.jsp?contentPage=member/view/";
 
 		try {
 			// 화면전환

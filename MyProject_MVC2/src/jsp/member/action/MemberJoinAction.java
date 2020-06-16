@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import jsp.member.model.MemberBean;
+import jsp.member.model.MemberDAO;
 
 public class MemberJoinAction implements Action {
 	
@@ -13,7 +14,7 @@ public class MemberJoinAction implements Action {
 		
 		ActionForward forward = new ActionForward();
 		
-		//MemberDAO dao = MemberDAO.getInstance();
+		MemberDAO dao = new MemberDAO();
 		
 		MemberBean member = new MemberBean();
 		member.setId(request.getParameter("id"));
@@ -29,7 +30,7 @@ public class MemberJoinAction implements Action {
 		member.setAddress(request.getParameter("address"));
 
 //		회원가입 실행
-//		dao.insertMember(member);
+		dao.insertMember(member);
 		
 //		가입성공
 		forward.setRedirect(true);

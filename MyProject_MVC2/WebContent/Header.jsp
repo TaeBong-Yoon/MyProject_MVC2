@@ -17,15 +17,15 @@
 <script type="text/javascript">
 	function changeView(value) {
 		if (value == "0") {
-			location.href = "MainForm.jsp";
+			location.href = "MainForm.do";
 		} else if (value == "1") {
-			location.href = "MainForm.jsp?contentPage=member/view/LoginForm.jsp";
+			location.href = "LoginForm.do";
 		} else if (value == "2") {
-			location.href = "MainForm.jsp?contentPage=member/view/JoinForm.jsp";
+			location.href = "JoinForm.do";
 		} else if (value == "3") {
-			location.href = "member/pro/SignOutPro.jsp";
+			location.href = "MemberLogoutAction.do";
 		} else if (value == "4") {
-			location.href = "MainForm.jsp?contentPage=member/view/UserInfoForm.jsp";
+			location.href = "MemberInfoAction.do";
 		}
 	}
 </script>
