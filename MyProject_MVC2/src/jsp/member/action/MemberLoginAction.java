@@ -30,7 +30,7 @@ public class MemberLoginAction implements Action {
 			forward.setNextPath("LoginForm.do");
 //		아이디가 없는 경우
 		} else if(check == -1) {
-			request.setAttribute("faul", "-1");
+			request.setAttribute("fail", "-1");
 			
 			forward.setRedirect(false);
 			forward.setNextPath("LoginForm.do");

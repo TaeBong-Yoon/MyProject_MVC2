@@ -76,7 +76,7 @@ table {
 	아래 EL JSTL로 변경
 	%> --%>
 
-	<c:set var="failMessage" value="${requesetScope.fail}" />
+	<c:set var="failMessage" value="${requestScope.fail}" />
 	<c:if test="${failMessage!=null}">
 		<c:choose>
 			<c:when test="${failMessage=='0'}">

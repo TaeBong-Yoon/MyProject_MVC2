@@ -27,7 +27,7 @@
 	}
 	%> --%>
 
-	<c:set var="message" value="$sessionScope.message" scope="session" />
+	<c:set var="message" value="${sessionScope.message}" scope="session" />
 	<c:choose>
 		<c:when test="${message!=null && message=='0'}">
 			<font size='6'>Modify Success!</font>
