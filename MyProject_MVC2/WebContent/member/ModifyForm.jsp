@@ -6,10 +6,8 @@
 <html>
 <head>
 <%
-String id = session.getAttribute("sessionID").toString();
-
-MemberDAO dao = new MemberDAO();
-MemberBean memberBean = dao.getUserInfo(id);
+//MemberInfoAction에서 넘긴 회원 정보 추출
+MemberBean member = (MemberBean)request.getAttribute("memberInfo");
 %>
 
 <meta charset="UTF-8">
@@ -25,7 +23,7 @@ font-weight:bold;
 </style>
 <script type="text/javascript">
 function init(){
-	setComboValue("<%=memberBean.getMail2() %>")
+	setComboValue("<%=member.getMail2() %>")
 }
 
 function setComboValue(val) 
@@ -55,19 +53,19 @@ function checkValue(){
 <b><font size="6" color="darkgrey">Modify User Info</font></b>
 <br><br><br>
 
-<form method="post" action="MainForm.jsp?contentPage=member/pro/ModifyPro.jsp" 
+<form method="post" action="MemberModifyAction.do" 
                 name="userInfo" onsubmit="return checkValue()">
                 
             <table>
                 <tr>
                     <td id="title">ID</td>
-                    <td id="title"><%=memberBean.getId() %></td>
+                    <td id="title"><%=member.getId() %></td>
                 </tr>
                 <tr>
                     <td id="title">Password</td>
                     <td>
                         <input type="password" name="password" maxlength="50" 
-                            value="<%=memberBean.getPassword()%>">
+                            value="<%=member.getPassword()%>">
                     </td>
                 </tr>
             </table>    
@@ -76,20 +74,20 @@ function checkValue(){
  
                 <tr>
                     <td id="title">Name</td>
-                    <td><%=memberBean.getName() %></td>
+                    <td><%=member.getName() %></td>
                 </tr>
                     
                 <tr>
                     <td id="title">Gender</td>
-                    <td><%=memberBean.getGender()%></td>
+                    <td><%=member.getGender()%></td>
                 </tr>
                     
                 <tr>
                     <td id="title">Birth</td>
                     <td>
-                        <%=memberBean.getBirthdd() %>. 
-                        <%=memberBean.getBirthmm() %>. 
-                        <%=memberBean.getBirthyy() %>
+                        <%=member.getBirthdd() %>. 
+                        <%=member.getBirthmm() %>. 
+                        <%=member.getBirthyy() %>
                     </td>
                 </tr>
                     
@@ -97,7 +95,7 @@ function checkValue(){
                     <td id="title">E-Mail</td>
                     <td>
                         <input type="text" name="mail1" maxlength="50" 
-                            value="<%=memberBean.getMail1() %>">
+                            value="<%=member.getMail1() %>">
                         @
                         <select name="mail2" id="mail2">
                             <option value="naver.com">naver.com</option>
@@ -111,20 +109,20 @@ function checkValue(){
                 <tr>
                     <td id="title">Phone</td>
                     <td>
-                        <input type="text" name="phone" value="<%=memberBean.getPhone() %>"/>
+                        <input type="text" name="phone" value="<%=member.getPhone() %>"/>
                     </td>
                 </tr>
                 <tr>
                     <td id="title">Address</td>
                     <td>
                         <input type="text" size="50" name="address"
-                            value="<%=memberBean.getAddress() %>"/>
+                            value="<%=member.getAddress() %>"/>
                     </td>
                 </tr>
             </table>
             <br><br>
-            <input type="button" value="Cancel" onclick="javascript:window.location='MainForm.jsp'">
-            <input type="submit" value="Modify"/>  
+            <input type="submit" value="Modify"/>
+            <input type="button" value="Cancel" onclick="javascript:window.location='MainForm.do'">
         </form>
 
 </body>

@@ -51,7 +51,7 @@ public class MemberController extends HttpServlet {
 		Action action = null;
 
 		// 보여줄 화면의 URL
-		String form = "MainForm.jsp?contentPage=member/view/";
+		String form = "MainForm.jsp?contentPage=member/";
 
 		try {
 			// 화면전환
@@ -75,11 +75,11 @@ public class MemberController extends HttpServlet {
 				forward = new ActionForward();
 				forward.setRedirect(false);
 				forward.setNextPath(form + "UserInfoForm.jsp");
-			} else if (command.equals("ModifyFrom.do")) // 회원수정화면 이동
+			} else if (command.equals("ModifyForm.do")) // 회원수정화면 이동
 			{
 				forward = new ActionForward();
 				forward.setRedirect(false);
-				forward.setNextPath(form + "ModifyFrom.jsp");
+				forward.setNextPath(form + "ModifyForm.jsp");
 			} else if (command.equals("DeleteForm.do")) // 회원삭제화면 이동
 			{
 				forward = new ActionForward();
@@ -123,7 +123,7 @@ public class MemberController extends HttpServlet {
 			}
 			// 화면이동 - isRedirext() 값에 따라 sendRedirect 또는 forward를 사용
 			// sendRedirect : 새로운 페이지에서는 request와 response객체가 새롭게 생성된다.
-			// forward : 현재 실행중인 페이지와 forwad에 의해 호출될 페이지는 request와 response 객체를 공유
+			// forward : 현재 실행중인 페이지와 forward에 의해 호출될 페이지는 request와 response 객체를 공유
 			if (forward != null) {
 				if (forward.isRedirect()) {
 					response.sendRedirect(forward.getNextPath());

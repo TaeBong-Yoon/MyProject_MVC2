@@ -41,7 +41,7 @@ table {
 	}
 
 	function goFirstForm() {
-		location.href = "MainForm.jsp";
+		location.href = "MainForm.do";
 	}
 </script>
 
@@ -55,7 +55,7 @@ table {
 	<br>
 	<br>
 	<form method="post"
-		action="MainForm.jsp?contentPage=member/pro/JoinPro.jsp"
+		action="MemberJoinAction.do"
 		name="userInfo" onsubmit="return checkValue()">
 		<table>
 			<tr>

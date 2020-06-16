@@ -21,11 +21,11 @@ table {
 <script type="text/javascript">
 	function changeForm(val) {
 		if (val == "-1") {
-			location.href = "MainForm.jsp";
+			location.href = "MainForm.do";
 		} else if (val == "0") {
-			location.href = "MainForm.jsp?contentPage=member/view/ModifyForm.jsp";
+			location.href = "MemberModifyFormAction.do";
 		} else if (val == "1") {
-			location.href = "MainForm.jsp?contentPage=member/view/DeleteForm.jsp";
+			location.href = "DeleteForm.do";
 		}
 	}
 </script>

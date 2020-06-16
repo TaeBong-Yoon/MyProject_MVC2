@@ -35,7 +35,7 @@ table {
 	<br>
 
 	<form name="deleteform" method="post"
-		action="MainForm.jsp?contentPage=member/pro/DeletePro.jsp"
+		action="MemberDeleteAction.do"
 		onsubmit="return checkValue()">
 
 		<table>
@@ -45,9 +45,11 @@ table {
 			</tr>
 		</table>
 
-		<br> <input type="button" value="Cancel"
-			onclick="javascript:window.location='MainForm.jsp'"> <input
+		<br> 
+		 <input
 			type="submit" value="WithDrawl" />
+		<input type="button" value="Cancel"
+			onclick="javascript:window.location='MainForm.do'">
 	</form>
 
 </body>

@@ -21,9 +21,9 @@ public class MemberJoinAction implements Action {
 		member.setPassword(request.getParameter("password"));
 		member.setName(request.getParameter("name"));
 		member.setGender(request.getParameter("gender"));
-		member.setBirthyy(request.getParameter("birthyy"));
+		member.setBirthdd(request.getParameter("birthdd"));
 		member.setBirthmm(request.getParameterValues("birthmm")[0]);
-		member.setBirthdd(request.getParameter("birthd"));
+		member.setBirthyy(request.getParameter("birthyy"));
 		member.setMail1(request.getParameter("mail1"));
 		member.setMail2(request.getParameterValues("mail2")[0]);
 		member.setPhone(request.getParameter("phone"));
@@ -39,7 +39,7 @@ public class MemberJoinAction implements Action {
 //		가입성공 메세지 세션에 담아준다.
 		request.getSession().setAttribute("message", 1);
 		
-		return null;
+		return forward;
 	}
 
 }
