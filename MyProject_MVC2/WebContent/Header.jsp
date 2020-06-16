@@ -26,23 +26,41 @@
 			location.href = "MemberLogoutAction.do";
 		} else if (value == "4") {
 			location.href = "MemberInfoAction.do";
+		} else if (value == "5") {
+			location.href = "MemberListAction.do";
 		}
 	}
 </script>
 </head>
 <body>
-<div id="wrap">
-<p>
-<button class="btn btn-success" onclick="changeView(0)">HOME</button>
-<%if(session.getAttribute("sessionID")==null){ %>
-<button id="loginBtn" class="btn btn-primary" onclick="changeView(1)">Sign In</button>
-<button id="joinBtn" class="btn btn-primary" onclick="changeView(2)">Sign Up</button>
-<%} else { %>
-<button id="logoutBtn" class="btn btn-primary" onclick="changeView(3)">Sign Out</button>
-<button id="updateBtn" class="btn btn-success" onclick="changeView(4)">My Info</button>
-<% } %>
-<button id="memberViewBtn" class="btn btn-warning">See User</button>
-</p>
-</div>
+	<div id="wrap">
+		<p>
+			<button class="btn btn-success" onclick="changeView(0)">HOME</button>
+			<%
+				if (session.getAttribute("sessionID") == null) {
+			%>
+			<button id="loginBtn" class="btn btn-primary" onclick="changeView(1)">Sign
+				In</button>
+			<button id="joinBtn" class="btn btn-primary" onclick="changeView(2)">Sign
+				Up</button>
+			<%
+				} else {
+			%>
+			<button id="logoutBtn" class="btn btn-primary"
+				onclick="changeView(3)">Sign Out</button>
+			<button id="updateBtn" class="btn btn-success"
+				onclick="changeView(4)">My Info</button>
+			<%
+				}
+			%>
+			<%
+			if (session.getAttribute("sessionID") != null && session.getAttribute("sessionID").equals("admin")) {
+			%>
+			<button id="memberViewBtn" class="btn btn-warning" onclick="changeView(5)">See All Users</button>
+			<%
+				}
+			%>
+		</p>
+	</div>
 </body>
 </html>

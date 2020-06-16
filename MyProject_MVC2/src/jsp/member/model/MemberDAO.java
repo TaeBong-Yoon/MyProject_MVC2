@@ -5,6 +5,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
 import jsp.util.DBConnection;
 
 public class MemberDAO {
@@ -231,6 +233,46 @@ public class MemberDAO {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	// 모든 회원정보를 가져옴 for admin
+
+	public ArrayList<MemberBean> getMemberList() {
+
+		ArrayList<MemberBean> memberList = new ArrayList<MemberBean>();
+		conn = null;
+		pstmt = null;
+		rs = null;
+		db = null;
+		MemberBean member = null;
+
+		try {
+			StringBuffer sql = new StringBuffer();
+			sql.append("SELECT * FROM jsp_member");
+
+			db = DBConnection.getInstance();
+			conn = db.getConnection();
+			pstmt = conn.prepareStatement(sql.toString());
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				member = new MemberBean();
+				member.setId(rs.getString("id"));
+				member.setPassword(rs.getString("password"));
+				member.setName(rs.getString("name"));
+				member.setGender(rs.getString("gender"));
+				member.setBirthyy(rs.getDate("birth").toString());
+				member.setMail1(rs.getString("mail"));
+				member.setPhone(rs.getString("phone"));
+				member.setAddress(rs.getString("address"));
+				member.setReg(rs.getTimestamp("reg"));
+				memberList.add(member);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return memberList;
 	}
 
 }

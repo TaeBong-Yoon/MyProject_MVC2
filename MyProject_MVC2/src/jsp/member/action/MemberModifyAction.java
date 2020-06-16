@@ -32,7 +32,7 @@ public class MemberModifyAction implements Action {
 		dao.updateMember(member);
 		
 		forward.setRedirect(true);
-		forward.setNextPath("Result.do");
+		forward.setNextPath("ResultForm.do");
 		
 //		정보 수정 성공 메세지를 세션에 담음
 		session.setAttribute("message", "0");

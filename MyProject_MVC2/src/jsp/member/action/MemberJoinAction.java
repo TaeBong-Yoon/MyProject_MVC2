@@ -34,7 +34,7 @@ public class MemberJoinAction implements Action {
 		
 //		가입성공
 		forward.setRedirect(true);
-		forward.setNextPath("Result.do");
+		forward.setNextPath("ResultForm.do");
 		
 //		가입성공 메세지 세션에 담아준다.
 		request.getSession().setAttribute("message", 1);

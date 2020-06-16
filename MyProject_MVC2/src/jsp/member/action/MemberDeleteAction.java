@@ -25,7 +25,7 @@ public class MemberDeleteAction implements Action {
 //			세션 삭제시 세션이 변경되어 방문자도 증가함
 			session.removeAttribute("sessionID");
 			forward.setRedirect(true);
-			forward.setNextPath("Result.do");
+			forward.setNextPath("ResultForm.do");
 		} else {
 			System.out.println("Delete Fail");
 			return null;
