@@ -19,7 +19,7 @@
 		if (value == "0") {
 			location.href = "MainForm.jsp";
 		} else if (value == "1") {
-			location.href = "MainForm.jsp?contentPage=member/view/SignInForm.jsp";
+			location.href = "MainForm.jsp?contentPage=member/view/LoginForm.jsp";
 		} else if (value == "2") {
 			location.href = "MainForm.jsp?contentPage=member/view/JoinForm.jsp";
 		} else if (value == "3") {

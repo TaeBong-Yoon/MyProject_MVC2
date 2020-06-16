@@ -43,7 +43,7 @@ font-weight:bold;
 		<br> <br> <b> <font size="6" color="darkgrey">
 				Sign In</font>
 		</b> <br> <br> <br>
-		<form name="loginInfo" method="POST" action="member/pro/SignInPro.jsp"
+		<form name="loginInfo" method="POST" action="member/pro/LoginPro.jsp"
 			onsubmit="return checkValue()">
 			<br> <br>
 			<table>
