@@ -26,14 +26,19 @@ public class MemberDAO {
 
 	public void insertMember(MemberBean member) throws SQLException {
 
+		conn = null;
+		pstmt = null;
+		db = null;
+
 		try {
+
+			StringBuffer sql = new StringBuffer();
+			sql.append("INSERT INTO jsp_member VALUES(?, ?, ?, ?, ?, ?, ?, ?, now())");
+
 			db = DBConnection.getInstance();
 			conn = db.getConnection();
 			// 자동 커밋 false
 			conn.setAutoCommit(false);
-
-			StringBuffer sql = new StringBuffer();
-			sql.append("INSERT INTO jsp_member VALUES(?, ?, ?, ?, ?, ?, ?, ?, now())");
 
 			stringToDate(member);
 
@@ -64,6 +69,7 @@ public class MemberDAO {
 		conn = null;
 		pstmt = null;
 		rs = null;
+		db = null;
 		MemberBean member = null;
 
 		try {
@@ -113,6 +119,7 @@ public class MemberDAO {
 		conn = null;
 		pstmt = null;
 		rs = null;
+		db = null;
 
 		String dbPW = "";
 		int result = -1;
@@ -151,6 +158,7 @@ public class MemberDAO {
 	public void updateMember(MemberBean member) throws SQLException {
 		conn = null;
 		pstmt = null;
+		db = null;
 
 		try {
 			StringBuffer sql = new StringBuffer();
@@ -185,6 +193,7 @@ public class MemberDAO {
 		conn = null;
 		pstmt = null;
 		rs = null;
+		db = null;
 
 		String dbpw = "";
 		int result = -1;

@@ -21,7 +21,9 @@ public class MemberDeleteAction implements Action {
 		int result = dao.deleteMember(id, password);
 		
 		if(result == 1) {
-			session.invalidate();
+//			방문자 수를 체크하기 위해 ID값만 삭제함
+//			세션 삭제시 세션이 변경되어 방문자도 증가함
+			session.removeAttribute("sessionID");
 			forward.setRedirect(true);
 			forward.setNextPath("Result.do");
 		} else {

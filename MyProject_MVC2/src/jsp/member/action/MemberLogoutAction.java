@@ -10,7 +10,9 @@ public class MemberLogoutAction implements Action {
 		
 		ActionForward forward = new ActionForward();
 		
-		request.getSession().invalidate();
+//		방문자 수를 체크하기 위해 ID값만 삭제함
+//		세션 삭제시 세션이 변경되어 방문자도 증가함
+		request.getSession().removeAttribute("sessionID");;
 		
 		forward.setRedirect(true);
 		forward.setNextPath("MainForm.do");

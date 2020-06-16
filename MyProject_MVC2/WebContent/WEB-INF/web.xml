@@ -6,15 +6,19 @@
 	<display-name>MyProject_MVC2</display-name>
 
 	<servlet>
-        <description>Controller</description>
-        <display-name>MemberController</display-name>
-        <servlet-name>MemberController</servlet-name>
-        <servlet-class>jsp.member.action.MemberController</servlet-class>
-    </servlet>
- 
-     <servlet-mapping>
-        <servlet-name>MemberController</servlet-name>
-        <url-pattern>*.do</url-pattern>
-    </servlet-mapping>
+		<description>Controller</description>
+		<display-name>MemberController</display-name>
+		<servlet-name>MemberController</servlet-name>
+		<servlet-class>jsp.member.action.MemberController</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>MemberController</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+
+	<listener>
+		<listener-class>jsp.visit.action.VisitSessionListener</listener-class>
+	</listener>
 
 </web-app>

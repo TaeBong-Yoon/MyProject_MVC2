@@ -59,7 +59,9 @@ if (contentPage == null) {
 		<div id="main">
 			<jsp:include page="<%=contentPage%>" />
 		</div>
-		<div id="footer">footer</div>
+		<div id="footer">
+			<jsp:include page="Footer.jsp"></jsp:include>
+		</div>
 	</div>
 
 </body>
