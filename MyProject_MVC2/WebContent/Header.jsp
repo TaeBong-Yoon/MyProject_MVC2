@@ -29,6 +29,8 @@
 			location.href = "MemberInfoAction.do";
 		} else if (value == "5") {
 			location.href = "MemberListAction.do";
+		} else if (value == "6") {
+			location.href = "BoardListAction.bo";
 		}
 	}
 </script>
@@ -50,11 +52,13 @@
 					onclick="changeView(3)">Sign Out</button>
 				<button id="updateBtn" class="btn btn-success"
 					onclick="changeView(4)">My Info</button>
-			<!-- 로그인 된 경우 - amdmin 로그인 시 유저 정보 버튼 -->
-				<c:if test="${sessionScope.sessionID=='admin'}">
-					<button id="memberViewBtn" class="btn btn-warning"
-						onclick="changeView(5)">See All Users</button>
-				</c:if>
+			</c:if>
+			<button id="joinBtn" class="btn btn-info" onclick="changeView(6)">Board</button>
+			<!-- amdmin 로그인 시 유저 정보 버튼 -->
+			<c:if
+				test="${sessionScope.sessionID!=null && sessionScope.sessionID=='admin'}">
+				<button id="memberViewBtn" class="btn btn-warning"
+					onclick="changeView(5)">See All Users</button>
 			</c:if>
 		</p>
 	</div>

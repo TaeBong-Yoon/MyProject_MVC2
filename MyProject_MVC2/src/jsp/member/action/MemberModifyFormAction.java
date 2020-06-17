@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import jsp.common.action.Action;
+import jsp.common.action.ActionForward;
 import jsp.member.model.MemberBean;
 import jsp.member.model.MemberDAO;
 //		회원정보 수정 화면에서 보여주는 회원정보 출력

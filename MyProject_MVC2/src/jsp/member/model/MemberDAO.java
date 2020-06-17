@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import jsp.util.DBConnection;
+import jsp.common.util.DBConnection;
 
 public class MemberDAO {
 

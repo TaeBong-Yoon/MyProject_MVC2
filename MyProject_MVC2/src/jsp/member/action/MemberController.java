@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jsp.common.action.Action;
+import jsp.common.action.ActionForward;
+
 public class MemberController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;

@@ -1,4 +1,4 @@
-package jsp.member.action;
+package jsp.board.action;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -6,10 +6,9 @@ import javax.servlet.http.HttpServletResponse;
 import jsp.common.action.Action;
 import jsp.common.action.ActionForward;
 
-//화면 전환 처리 Action
-public class MemberFormChangeAction implements Action {
+public class BoardFormChangeAction implements Action {
 	
-	private String form = "MainForm.jsp?contentPage=member/";
+	private String form = "MainForm.jsp?contentPage=board/";
 	private String path;
 	
 	public void setCommand(String command) {

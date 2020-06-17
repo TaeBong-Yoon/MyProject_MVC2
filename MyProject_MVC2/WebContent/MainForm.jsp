@@ -2,14 +2,6 @@
 	pageEncoding="UTF-8"%>
 	<!-- https://sjh836.tistory.com/136 - jstl 사용법 참고 -->
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%-- <%
-JSTL, EL 로 대체함
-	request.setCharacterEncoding("UTF-8");
-	String contentPage = request.getParameter("contentPage");
-if (contentPage == null) {
-	contentPage = "FirstView.jsp";
-}
-%> --%>
 <!DOCTYPE html>
 <html>
 <head>

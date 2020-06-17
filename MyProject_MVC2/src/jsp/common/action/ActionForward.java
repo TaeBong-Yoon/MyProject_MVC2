@@ -1,4 +1,4 @@
-package jsp.member.action;
+package jsp.common.action;
 
 //페이지 처리 위한 클래스
 

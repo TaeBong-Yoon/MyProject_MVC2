@@ -1,4 +1,4 @@
-package jsp.util;
+package jsp.common.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

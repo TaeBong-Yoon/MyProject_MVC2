@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import jsp.util.DBConnection;
+import jsp.common.util.DBConnection;
 
 public class VisitCountDAO {
 
