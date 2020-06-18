@@ -3,6 +3,7 @@ package jsp.board.model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -27,7 +28,7 @@ public class BoardDAO {
 
 		try {
 			StringBuffer sql = new StringBuffer();
-			sql.append("select board_num from member_board");
+			sql.append("select board_num from member_board;");
 			db = DBConnection.getInstance();
 			conn = db.getConnection();
 
@@ -61,7 +62,7 @@ public class BoardDAO {
 			StringBuffer sql = new StringBuffer();
 			sql.append("INSERT INTO member_board (board_num,board_id,board_subject,board_content,board_file,");
 			sql.append("Board_re_ref,Board_re_lev,Board_re_seq,Board_count,Board_date)");
-			sql.append(" VALUES (?,?,?,?,?,?,?,?,?,now())");
+			sql.append(" VALUES (?,?,?,?,?,?,?,?,?,now());");
 			db = DBConnection.getInstance();
 			conn = db.getConnection();
 
@@ -83,7 +84,7 @@ public class BoardDAO {
 
 			if (flag > 0) {
 				result = true;
-				conn.commit();
+//				conn.commit();
 			}
 
 			DBConnection.close(pstmt);
@@ -288,6 +289,84 @@ public class BoardDAO {
 			}
 
 			DBConnection.close(rs);
+			DBConnection.close(pstmt);
+			DBConnection.close(conn);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	// 상세보기
+	public BoardBean getDetail(int boardNum) {
+
+		conn = null;
+		pstmt = null;
+		rs = null;
+		db = null;
+		BoardBean board = null;
+		
+		try {
+
+			StringBuffer sql = new StringBuffer();
+			sql.append("SELECT * FROM member_board WHERE board_num=?");
+
+			db = DBConnection.getInstance();
+			conn = db.getConnection();
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setInt(1, boardNum);
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				board = new BoardBean();
+				board.setBoard_num(boardNum);
+				board.setBoard_id(rs.getString("board_id"));
+				board.setBoard_subject(rs.getString("board_subject"));
+				board.setBoard_content(rs.getString("board_content"));
+				board.setBoard_file(rs.getString("board_file"));
+				board.setBoard_count(rs.getInt("board_count"));
+				board.setBoard_re_ref(rs.getInt("Board_re_ref"));
+				board.setBoard_re_lev(rs.getInt("Board_re_lev"));
+				board.setBoard_re_seq(rs.getInt("Board_re_seq"));
+				board.setBoard_date(rs.getDate("Board_date"));
+			}
+			
+			DBConnection.close(rs);
+			DBConnection.close(pstmt);
+			DBConnection.close(conn);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return board;
+	}
+
+	// 조회수 증가
+	public boolean updateCount(int boardNum) throws SQLException {
+
+		boolean result = false;
+		conn = null;
+		pstmt = null;
+		db = null;
+
+		try {
+			StringBuffer sql = new StringBuffer();
+			sql.append("UPDATE member_board SET board_count = board_count+1 WHERE board_num = ?");
+
+			
+			db = DBConnection.getInstance();
+			conn = db.getConnection();
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setInt(1, boardNum);
+
+			int flag = pstmt.executeUpdate();
+
+			if (flag > 0) {
+				result = true;
+			}
+
 			DBConnection.close(pstmt);
 			DBConnection.close(conn);
 

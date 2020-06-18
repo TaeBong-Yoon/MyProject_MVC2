@@ -54,8 +54,7 @@
 					<tr>
 						<td>${board.board_num}</td>
 						<td>
-							<!-- href는 이후에 상세보기 기능 추가 예정 --> <a
-							href="BoardDetailAction.bo?num=${board.board_num}&pageNum=${pageNum}">
+							<a href="BoardDetailAction.bo?num=${board.board_num}&pageNum=${spage}">
 								${board.board_subject} </a>
 						</td>
 						<td><a href="#">${board.board_id}</a></td>

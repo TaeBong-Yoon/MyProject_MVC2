@@ -9,13 +9,14 @@
 <style type="text/css">
 #title {
 	height: 16;
-	fon-size: 12;
+	font-size: 12;
 	text-align: center;
+	text-weight: bold;
 }
 
 #writerForm {
 	width: 700px;
-	border: 3px solid tomato;
+	border: 1px dotted tomato;
 	text-align: center;
 }
 </style>
@@ -39,7 +40,7 @@
 			</tr>
 			<tr>
 				<td id="title">Content</td>
-				<td><textarea name="board_content" rows="20" cols="72"></textarea>
+				<td><textarea name="board_content" rows="15" cols="72"></textarea>
 				</td>
 			</tr>
 			<tr>

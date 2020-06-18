@@ -44,7 +44,7 @@ public class BoardWriteAction implements Action {
 			boardData.setBoard_id(multi.getParameter("board_id")); // 히든값으로 넘긴 id
 			boardData.setBoard_subject(multi.getParameter("board_subject"));
 			boardData.setBoard_content(multi.getParameter("board_content"));
-			boardData.setBoard_file(multi.getParameter("board_file"));
+			boardData.setBoard_file(fileName);
 			
 			boolean result = dao.boardInsert(boardData);
 			
