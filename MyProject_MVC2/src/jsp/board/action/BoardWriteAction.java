@@ -50,7 +50,7 @@ public class BoardWriteAction implements Action {
 			
 			if(result) {
 				forward.setRedirect(true);
-				forward.setNextPath("BoardListForm.bo");
+				forward.setNextPath("BoardListAction.bo");
 			}
 			
 		} catch(Exception e) {

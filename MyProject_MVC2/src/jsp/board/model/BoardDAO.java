@@ -75,16 +75,21 @@ public class BoardDAO {
 			pstmt.setString(3, board.getBoard_subject());
 			pstmt.setString(4, board.getBoard_content());
 			pstmt.setString(5, board.getBoard_file());
-			pstmt.setInt(6, num);
-			pstmt.setInt(7, 0);
-			pstmt.setInt(8, 0);
+			
+			// re_seq == 0 : 답변글이 없는 경우, 부모글
+			if(board.getBoard_re_seq()==0) {
+				pstmt.setInt(6, num);	
+			} else {
+				pstmt.setInt(6, board.getBoard_re_ref());
+			}
+			pstmt.setInt(7, board.getBoard_re_lev());
+			pstmt.setInt(8, board.getBoard_re_seq());
 			pstmt.setInt(9, 0);
 
 			int flag = pstmt.executeUpdate();
 
 			if (flag > 0) {
 				result = true;
-//				conn.commit();
 			}
 
 			DBConnection.close(pstmt);
@@ -117,10 +122,12 @@ public class BoardDAO {
 		// 마음에 안드는 부분
 		// 1. 후반 페이지로 갈수록 넘버링이 1에 가까워 져야함.(최신글 적용)
 		// 2. 찾기 할때 setInt를 정해놓으니까 그 이후 애들을 못찾음
-		// #1 - setInt를 삭제하고 LIMIT 만 5개로 거는것도 방법.
-		// #2 - 근데 보여줄 때 어떻게 보여지는 지를 테스트 해봐야함...
-		// #3 - 1페이지 2페이지 둘다 8~4 순으로 5개 보이고 끝. 나머지가 list에 안담김...
+
+		// #1-1 - 근데 보여줄 때 어떻게 보여지는 지를 테스트 해봐야함...
+		// #1-2 - 1페이지 2페이지 둘다 8~4 순으로 5개 보이고 끝. 나머지가 list에 안담김...
 		// sql.append("SELECT * FROM member_board ORDER BY board_num desc LIMIT 5;");
+		// #2-1 - setInt를 삭제하고 LIMIT 만 5개로 거는것도 방법.
+
 		try {
 
 			StringBuffer sql = new StringBuffer();
@@ -373,6 +380,46 @@ public class BoardDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return result;
+	}
+	
+	// 댓글 순서 처리
+	public boolean updateReSeq(BoardBean board) {
+		
+		boolean result = false;
+		// 원본글의 번호(그룹 번호)
+		int ref = board.getBoard_re_ref();
+		// 답변글의 순서
+		int seq = board.getBoard_re_seq();
+		
+		conn = null;
+		pstmt = null;
+		db = null;
+		
+		try {
+			StringBuffer sql = new StringBuffer();
+			sql.append("UPDATE member_board SET board_re_seq = board_re_seq+1");
+			sql.append("WHERE board_re_ref = ? AND BOARD_RE_SEQ > ?");
+			
+			db = DBConnection.getInstance();
+			conn = db.getConnection();
+			
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setInt(1, ref);
+			pstmt.setInt(2, seq);
+			
+			int flag = pstmt.executeUpdate();
+			if(flag>0) {
+				result = true;
+			}
+			
+			DBConnection.close(pstmt);
+			DBConnection.close(conn);
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 		return result;
 	}
 

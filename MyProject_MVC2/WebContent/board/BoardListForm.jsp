@@ -34,6 +34,7 @@
 </head>
 <body>
 	<div id="wrap">
+		<!-- 목록의 윗 부분 -->
 		<br>
 		<div id="topForm">
 			<c:if test="${sessionScope.sessionID!=null}">
@@ -41,6 +42,7 @@
 			</c:if>
 		</div>
 		<br>
+		<!-- 게시글의 목록 부분 -->
 		<div id="board">
 			<table id="bList">
 				<tr height="30">
@@ -53,10 +55,14 @@
 				<c:forEach var="board" items="${requestScope.list}">
 					<tr>
 						<td>${board.board_num}</td>
-						<td>
-							<a href="BoardDetailAction.bo?num=${board.board_num}&pageNum=${spage}">
-								${board.board_subject} </a>
-						</td>
+						<td align="left"><c:if test="${board.board_re_lev > 0}">
+								<c:forEach begin="1" end="${board.board_re_lev}">
+							&nbsp;&nbsp; <!-- 답변글인 경우 - 제목 앞 공백 추가 -->
+								</c:forEach>
+								RE :
+							</c:if> <a
+							href="BoardDetailAction.bo?num=${board.board_num}&pageNum=${spage}">
+								${board.board_subject} </a></td>
 						<td><a href="#">${board.board_id}</a></td>
 						<td>${board.board_date}</td>
 						<td>${board.board_count}</td>
@@ -65,6 +71,7 @@
 			</table>
 		</div>
 		<br>
+		<!-- 페이지 넘버링 부분 -->
 		<div id="pageForm">
 			<c:if test="${startPage != 1}">
 				<a href='BoardListAction.bo?page=${startPAge-1}'>[ Previous ]</a>
@@ -92,8 +99,8 @@
 					<option value="1">Content</option>
 					<option value="2">Title+Content</option>
 					<option value="3">Writer</option>
-				</select> <input type="text" size="20" name="condition" />&nbsp;
-				<input type="submit" value="Search" />
+				</select> <input type="text" size="20" name="condition" />&nbsp; <input
+					type="submit" value="Search" />
 			</form>
 		</div>
 	</div>

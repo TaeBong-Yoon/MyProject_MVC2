@@ -28,6 +28,16 @@
 	border: 1px dotted tomato;
 }
 </style>
+<script type="text/javascript">
+	function changeView(value) {
+		if (value == 0) {
+			location.href = "BoardListAction.bo?page=${pageNum}";
+		} else if (value == 1) {
+			location.href = 'BoardReplyFormAction.bo?num=${board.board_num}&page=${pageNum}';
+		}
+
+	}
+</script>
 </head>
 <body>
 	<div id="wrap">
@@ -58,10 +68,13 @@
 				</tr>
 
 				<tr align="center" valign="middle">
-					<td colspan="5"><input type="button" value="Modify"> <input
-						type="button" value="Delete"> <input type="button"
-						value="Coment"> <input type="button" value="List"
-						onclick="javascript:location.href='BoardListAction.bo?page=${pageNum}'">
+					<td colspan="5"><c:if test="${sessionScope.sessionID !=null}">
+							<c:if test="${sessionScope.sessionID == board.board_id}">
+								<input type="button" value="Modify">
+								<input type="button" value="Delete">
+							</c:if>
+							<input type="button" value="Comment" onclick="changeView(1)">
+						</c:if> <input type="button" value="List" onclick="changeView(0)">
 					</td>
 				</tr>
 			</table>
