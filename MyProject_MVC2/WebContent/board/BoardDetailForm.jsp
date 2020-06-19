@@ -35,7 +35,14 @@
 		} else if (value == 1) {
 			location.href = 'BoardReplyFormAction.bo?num=${board.board_num}&page=${pageNum}';
 		}
-
+	}
+	
+	function doAction(value){
+		if(value == 0){
+			alert("Click Modify");
+		} else if(value == 1){
+			location.href="BoardDeleteAction.bo?num=${board.board_num}";
+		}
 	}
 </script>
 </head>
@@ -70,8 +77,8 @@
 				<tr align="center" valign="middle">
 					<td colspan="5"><c:if test="${sessionScope.sessionID !=null}">
 							<c:if test="${sessionScope.sessionID == board.board_id}">
-								<input type="button" value="Modify">
-								<input type="button" value="Delete">
+								<input type="button" value="Modify" onclick="doAction(0)">
+								<input type="button" value="Delete" onclick="doAction(1)">
 							</c:if>
 							<input type="button" value="Comment" onclick="changeView(1)">
 						</c:if> <input type="button" value="List" onclick="changeView(0)">

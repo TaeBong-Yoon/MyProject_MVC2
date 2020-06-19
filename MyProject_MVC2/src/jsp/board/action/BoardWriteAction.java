@@ -20,7 +20,7 @@ public class BoardWriteAction implements Action {
 		
 		ActionForward forward = new ActionForward();
 		
-		// 업로드 파일 사이즈
+		// 업로드 파일 사이즈 5MByte
 		int fileSize = 5*1024*1024;
 		// 업로드 폴더 경로
 		String uploadPath = request.getServletContext().getRealPath("/UploadFolder");

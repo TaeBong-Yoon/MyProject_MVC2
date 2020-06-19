@@ -61,13 +61,20 @@ public class BoardDAO {
 
 			StringBuffer sql = new StringBuffer();
 			sql.append("INSERT INTO member_board (board_num,board_id,board_subject,board_content,board_file,");
-			sql.append("Board_re_ref,Board_re_lev,Board_re_seq,Board_count,Board_date)");
-			sql.append(" VALUES (?,?,?,?,?,?,?,?,?,now());");
+			sql.append("Board_re_ref,Board_count,Board_date, board_parent)");
+			sql.append(" VALUES (?,?,?,?,?,?,?,now(),?);");
 			db = DBConnection.getInstance();
 			conn = db.getConnection();
 
 			// num 값을 글번호와 그룹번호로 사용한다
 			int num = board.getBoard_num();
+			int ref = board.getBoard_re_ref();
+			int parent = board.getBoard_parent();
+
+			// 부모글의 경우 그룹번호와 글번호가 동일!
+			if (parent == 0) {
+				ref = num;
+			}
 
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setInt(1, num);
@@ -75,16 +82,9 @@ public class BoardDAO {
 			pstmt.setString(3, board.getBoard_subject());
 			pstmt.setString(4, board.getBoard_content());
 			pstmt.setString(5, board.getBoard_file());
-			
-			// re_seq == 0 : 답변글이 없는 경우, 부모글
-			if(board.getBoard_re_seq()==0) {
-				pstmt.setInt(6, num);	
-			} else {
-				pstmt.setInt(6, board.getBoard_re_ref());
-			}
-			pstmt.setInt(7, board.getBoard_re_lev());
-			pstmt.setInt(8, board.getBoard_re_seq());
-			pstmt.setInt(9, 0);
+			pstmt.setInt(6, ref);
+			pstmt.setInt(7, board.getBoard_count());
+			pstmt.setInt(8, parent);
 
 			int flag = pstmt.executeUpdate();
 
@@ -98,6 +98,26 @@ public class BoardDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return result;
+	}
+
+	// 댓글 삽입 위한 메소드
+	public boolean replyInsert(BoardBean board) {
+
+		boolean result = false;
+		conn = null;
+		pstmt = null;
+		db = null;
+
+		try {
+
+			StringBuffer sql = new StringBuffer();
+			sql.append("Insert board_reply");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return result;
 	}
 
@@ -118,16 +138,6 @@ public class BoardDAO {
 		rs = null;
 		db = null;
 
-		// SELECT * FROM member_board ORDER BY board_num DESC LIMIT 5으로 할까...
-		// 마음에 안드는 부분
-		// 1. 후반 페이지로 갈수록 넘버링이 1에 가까워 져야함.(최신글 적용)
-		// 2. 찾기 할때 setInt를 정해놓으니까 그 이후 애들을 못찾음
-
-		// #1-1 - 근데 보여줄 때 어떻게 보여지는 지를 테스트 해봐야함...
-		// #1-2 - 1페이지 2페이지 둘다 8~4 순으로 5개 보이고 끝. 나머지가 list에 안담김...
-		// sql.append("SELECT * FROM member_board ORDER BY board_num desc LIMIT 5;");
-		// #2-1 - setInt를 삭제하고 LIMIT 만 5개로 거는것도 방법.
-
 		try {
 
 			StringBuffer sql = new StringBuffer();
@@ -138,7 +148,7 @@ public class BoardDAO {
 				// board_num 을 내림차순 후 화면에 보여줄 갯수까지 가져온다.(5개까지 설정함)
 				sql.append(
 						"SELECT * FROM member_board WHERE board_num >=? AND board_num <=? ORDER BY board_num DESC LIMIT 5;");
-
+//				sql.append("SELECT * FROM member_board ORDER BY board_num DESC LIMIT ?,?");
 				pstmt = conn.prepareStatement(sql.toString());
 				pstmt.setInt(1, start);
 				pstmt.setInt(2, start + 4);
@@ -313,7 +323,7 @@ public class BoardDAO {
 		rs = null;
 		db = null;
 		BoardBean board = null;
-		
+
 		try {
 
 			StringBuffer sql = new StringBuffer();
@@ -339,11 +349,11 @@ public class BoardDAO {
 				board.setBoard_re_seq(rs.getInt("Board_re_seq"));
 				board.setBoard_date(rs.getDate("Board_date"));
 			}
-			
+
 			DBConnection.close(rs);
 			DBConnection.close(pstmt);
 			DBConnection.close(conn);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -362,7 +372,6 @@ public class BoardDAO {
 			StringBuffer sql = new StringBuffer();
 			sql.append("UPDATE member_board SET board_count = board_count+1 WHERE board_num = ?");
 
-			
 			db = DBConnection.getInstance();
 			conn = db.getConnection();
 			pstmt = conn.prepareStatement(sql.toString());
@@ -382,45 +391,113 @@ public class BoardDAO {
 		}
 		return result;
 	}
-	
+
 	// 댓글 순서 처리
 	public boolean updateReSeq(BoardBean board) {
-		
+
 		boolean result = false;
 		// 원본글의 번호(그룹 번호)
 		int ref = board.getBoard_re_ref();
 		// 답변글의 순서
 		int seq = board.getBoard_re_seq();
-		
+
 		conn = null;
 		pstmt = null;
 		db = null;
-		
+
 		try {
 			StringBuffer sql = new StringBuffer();
 			sql.append("UPDATE member_board SET board_re_seq = board_re_seq+1");
 			sql.append("WHERE board_re_ref = ? AND BOARD_RE_SEQ > ?");
-			
+
 			db = DBConnection.getInstance();
 			conn = db.getConnection();
-			
+
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setInt(1, ref);
 			pstmt.setInt(2, seq);
-			
+
 			int flag = pstmt.executeUpdate();
-			if(flag>0) {
+			if (flag > 0) {
 				result = true;
 			}
-			
+
 			DBConnection.close(pstmt);
 			DBConnection.close(conn);
-			
-		}catch(Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return result;
+	}
+
+	// 삭제할 글의 파일 삭제
+	public String getFileName(int boardNum) {
+
+		String fileName = null;
+		conn = null;
+		pstmt = null;
+		rs = null;
+		db = null;
+
+		try {
+
+			StringBuffer sql = new StringBuffer();
+			sql.append("SELECT board_file FROM member_board WHERE board_num =?");
+
+			db = DBConnection.getInstance();
+			conn = db.getConnection();
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setInt(1, boardNum);
+
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				fileName = rs.getString("board_file");
+			}
+
+			DBConnection.close(rs);
+			DBConnection.close(pstmt);
+			DBConnection.close(conn);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return fileName;
+	}
+
+	// 게시글 삭제
+	public boolean deleteBoard(int boardNum) {
+
+		boolean result = false;
+		conn = null;
+		pstmt = null;
+		db = null;
+
+		try {
+
+			StringBuffer sql = new StringBuffer();
+			sql.append("DELETE FROM member_board WHERE board_num = ?");
+
+			db = DBConnection.getInstance();
+			conn = db.getConnection();
+
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setInt(1, boardNum);
+
+			int flag = pstmt.executeUpdate();
+			if (flag > 0) {
+				result = true;
+			}
+
+			DBConnection.close(pstmt);
+			DBConnection.close(conn);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+
 	}
 
 }
