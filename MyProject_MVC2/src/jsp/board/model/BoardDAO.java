@@ -500,4 +500,45 @@ public class BoardDAO {
 
 	}
 
+	// 게시글 수정
+	public boolean updateBoard(BoardBean board) {
+
+		boolean result = false;
+		conn = null;
+		pstmt = null;
+		db = null;
+
+		try {
+
+			StringBuffer sql = new StringBuffer();
+			sql.append("UPDATE member_board SET ");
+			sql.append("board_subject = ?,");
+			sql.append("board_content = ?,");
+			sql.append("board_file = ?,");
+			sql.append("board_date = now() ");
+			sql.append("WHERE board_num = ?");
+
+			db = DBConnection.getInstance();
+			conn = db.getConnection();
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setString(1, board.getBoard_subject());
+			pstmt.setString(2, board.getBoard_content());
+			pstmt.setString(3, board.getBoard_file());
+			pstmt.setInt(4, board.getBoard_num());
+
+			int flag = pstmt.executeUpdate();
+			if (flag > 0) {
+				result = true;
+			}
+
+			DBConnection.close(pstmt);
+			DBConnection.close(conn);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+
+	}
+
 }

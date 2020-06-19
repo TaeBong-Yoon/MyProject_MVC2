@@ -14,7 +14,7 @@
 	text-weight: bold;
 }
 
-#writerForm {
+#writeForm {
 	width: 700px;
 	border: 1px dotted tomato;
 	text-align: center;

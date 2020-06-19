@@ -39,7 +39,7 @@
 	
 	function doAction(value){
 		if(value == 0){
-			alert("Click Modify");
+			location.href="BoardUpdateFormAction.bo?num=${board.board_num}&page=${pageNum}";
 		} else if(value == 1){
 			location.href="BoardDeleteAction.bo?num=${board.board_num}";
 		}
