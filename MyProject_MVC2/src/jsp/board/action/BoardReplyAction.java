@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import jsp.board.model.BoardBean;
 import jsp.board.model.BoardDAO;
+import jsp.board.model.ReplyBean;
 import jsp.common.action.Action;
 import jsp.common.action.ActionForward;
 
@@ -19,30 +20,29 @@ public class BoardReplyAction implements Action {
 
 		BoardDAO dao = new BoardDAO();
 		BoardBean boardData = new BoardBean();
-
+		ReplyBean replyData = new ReplyBean();
+		
 		// 작성후 원래 페이지로 돌아가기 위한 페이지번호
 		String pageNum = request.getParameter("page");
 
+		int num = Integer.parseInt(request.getParameter("board_num"));
 		String id = request.getParameter("board_id");
 		String subject = request.getParameter("board_subject");
 		String content = request.getParameter("board_content");
 		int ref = Integer.parseInt(request.getParameter("board_re_ref"));
-		int lev = Integer.parseInt(request.getParameter("board_re_lev"));
-		int seq = Integer.parseInt(request.getParameter("board_re_seq"));
 		
-		// 최신 답글이 위로 올라가도록 처리
-		boardData.setBoard_re_ref(ref);
-		boardData.setBoard_re_seq(seq);
-		dao.updateReSeq(boardData);
-
+		replyData.setReply_ident_num(num);
+		replyData.setReply_id(id);
+		replyData.setReply_content(content);
+		
+		
 		// 댓글 저장
 		boardData.setBoard_id(id);
 		boardData.setBoard_subject(subject);
 		boardData.setBoard_content(content);
 		boardData.setBoard_re_ref(ref);
-		boardData.setBoard_re_lev(lev + 1);
-		boardData.setBoard_re_seq(seq + 1);
-
+		boardData.setBoard_parent(num);
+		
 		boolean result = dao.boardInsert(boardData);
 
 		if (result) {
