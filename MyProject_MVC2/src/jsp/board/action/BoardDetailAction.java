@@ -1,8 +1,12 @@
 package jsp.board.action;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jsp.board.comment.model.CommentBean;
+import jsp.board.comment.model.CommentDAO;
 import jsp.board.model.BoardBean;
 import jsp.board.model.BoardDAO;
 import jsp.common.action.Action;
@@ -26,6 +30,13 @@ public class BoardDetailAction implements Action {
 		BoardBean board = dao.getDetail(boardNum);
 		boolean result = dao.updateCount(boardNum);
 
+		CommentDAO commentDAO = new CommentDAO();
+		ArrayList<CommentBean> commentList = commentDAO.getCommentList(boardNum);
+		
+		if(commentList.size() > 0) {
+			request.setAttribute("commentList", commentList);
+		}
+
 		request.setAttribute("board", board);
 		request.setAttribute("pageNum", pageNum);
 
@@ -33,6 +44,7 @@ public class BoardDetailAction implements Action {
 			forward.setRedirect(false);
 			forward.setNextPath("BoardDetailForm.bo");
 		}
+		
 		return forward;
 	}
 

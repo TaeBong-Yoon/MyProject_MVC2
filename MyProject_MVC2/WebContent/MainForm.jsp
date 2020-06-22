@@ -29,6 +29,7 @@
 	background-color: wheat;
 	text-align: center;
 	vertical-align: middle;
+	overflow: auto;
 }
 
 #footer {

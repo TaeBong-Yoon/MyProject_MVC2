@@ -12,8 +12,10 @@
 	margin: 0 auto 0 auto;
 }
 
-#derailBoard {
+#detailBoard {
 	text-align: center;
+	width: 800px;
+	border: 1px dotted tomato;
 }
 
 #title {
@@ -23,8 +25,7 @@
 	text-weight: bold;
 }
 
-#detailBoard {
-	width: 800px;
+#commentBoard {
 	border: 1px dotted tomato;
 }
 </style>
@@ -36,12 +37,73 @@
 			location.href = 'BoardReplyFormAction.bo?num=${board.board_num}&page=${pageNum}';
 		}
 	}
-	
-	function doAction(value){
-		if(value == 0){
-			location.href="BoardUpdateFormAction.bo?num=${board.board_num}&page=${pageNum}";
-		} else if(value == 1){
-			location.href="BoardDeleteAction.bo?num=${board.board_num}";
+
+	function doAction(value) {
+		if (value == 0) {
+			//수정
+			location.href = "BoardUpdateFormAction.bo?num=${board.board_num}&page=${pageNum}";
+		} else if (value == 1) {
+			//삭제
+			location.href = "BoardDeleteAction.bo?num=${board.board_num}";
+		}
+	}
+
+	var httpRequest = null;
+
+	/* httpRequest 객체 생성 https://jamong-icetea.tistory.com/150 */
+	function getXMLHttpRequest() {
+
+		var httpRequest = null;
+		/* IE일 경우 */
+		if (window.ActiveXObject) {
+			try {
+				httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
+			} catch (e) {
+				try {
+					httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+				} catch (e2) {
+					httpRequest = null;
+				}
+			}
+			/* 그 외 익스플로러일 경우 */
+		} else if (window.XMLHttpRequest) {
+			httpRequest = new window.XMLHttpRequest();
+		}
+		return httpRequest;
+	}
+
+	function writeCmt()
+    {
+        var form = document.getElementById("writeCommentForm");
+        
+        var board = form.comment_board.value
+        var id = form.comment_id.value
+        var content = form.comment_content.value;
+        
+        if(!content)
+        {
+            alert("Input Comment");
+            return false;
+        }
+        else
+        {    
+            var param="comment_board="+board+"&comment_id="+id+"&comment_content="+content;
+                
+            httpRequest = getXMLHttpRequest();
+            httpRequest.onreadystatechange = checkFunc;
+            httpRequest.open("POST", "CommentWriteAction.co", true);    
+            httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=EUC-KR'); 
+            httpRequest.send(param);
+        }
+    }
+
+
+	function checkFunc() {
+		if (httpRequest.readyState == 4) {
+			var resultText = httpRequest.responseText;
+			if (resultText == 1) {
+				document.location.reload(); // Detail 창 새로고침
+			}
 		}
 	}
 </script>
@@ -80,10 +142,66 @@
 								<input type="button" value="Modify" onclick="doAction(0)">
 								<input type="button" value="Delete" onclick="doAction(1)">
 							</c:if>
-							<input type="button" value="Comment" onclick="changeView(1)">
+							<!-- <input type="button" value="Comment" onclick="changeView(1)"> -->
 						</c:if> <input type="button" value="List" onclick="changeView(0)">
 					</td>
 				</tr>
+			</table>
+		</div>
+		<br> <br>
+		<!-- comment 댓글 부분 Comment 클릭시 보이도록 할것 -->
+		<div id="comment">
+			<table id="commentBoard">
+				<c:if test="${requestScope.commentList != null}">
+					<c:forEach var="comment" items="${requestScope.commentList}">
+						<tr>
+							<td width="150">
+								<div>
+									${comment.reply_id} <br> <font size="2" color="darkgrey">${comment.reply_date}</font>
+								</div>
+							</td>
+							<td width="550">
+								<div class="text_wrapper">${comment.reply_content};</div>
+							</td>
+							<td width="100">
+								<div id="btn" style="text-align: center;">
+									<a href="#">[Comment]</a>
+									<c:if test="${comment.reply_id == sessionScope.sessionID}">
+										<!-- 작성자만 수정,삭제 가능 -->
+										<a href="#">[Modify]</a>
+										<a href="#">[Delete]</a>
+									</c:if>
+								</div>
+							</td>
+						</tr>
+					</c:forEach>
+				</c:if>
+				<!-- 로그인 시에만 댓글 작성 가능 -->
+				<c:if test="${sessionScope.sessionID !=null}">
+						<form id="writeCommentForm">
+							<input type="hidden" name="comment_board"
+								value="${board.board_num}"> <input type="hidden"
+								name="comment_id" value="${sessionScope.sessionID}">
+							<!-- 아이디-->
+							<td width="150">
+								<div>${sessionScope.sessionID}</div>
+							</td>
+							<!-- 본문 작성-->
+							<td width="550">
+								<div>
+									<textarea name="comment_content" rows="4" cols="70"></textarea>
+								</div>
+							</td>
+							<!-- 댓글 등록 버튼 -->
+							<td width="100">
+								<div id="btn" style="text-align: center;">
+									<p>
+										<a href="#" onclick="writeCmt()">[Comment]</a>
+									</p>
+								</div>
+							</td>
+						</form>
+				</c:if>
 			</table>
 		</div>
 	</div>

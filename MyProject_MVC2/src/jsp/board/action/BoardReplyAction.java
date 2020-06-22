@@ -3,9 +3,9 @@ package jsp.board.action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jsp.board.comment.model.CommentBean;
 import jsp.board.model.BoardBean;
 import jsp.board.model.BoardDAO;
-import jsp.board.model.ReplyBean;
 import jsp.common.action.Action;
 import jsp.common.action.ActionForward;
 
@@ -20,7 +20,7 @@ public class BoardReplyAction implements Action {
 
 		BoardDAO dao = new BoardDAO();
 		BoardBean boardData = new BoardBean();
-		ReplyBean replyData = new ReplyBean();
+		CommentBean replyData = new CommentBean();
 		
 		// 작성후 원래 페이지로 돌아가기 위한 페이지번호
 		String pageNum = request.getParameter("page");

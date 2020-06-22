@@ -1,8 +1,8 @@
-package jsp.board.model;
+package jsp.board.comment.model;
 
 import java.sql.Date;
 
-public class ReplyBean {
+public class CommentBean {
 
 	private int reply_num; // 댓글 넘버
 	private int reply_ident_num; // 원글의 번호 foreign key - board_num
