@@ -106,6 +106,22 @@
 			}
 		}
 	}
+	
+	function cmReplyOpen(comment_num){
+		
+		var userId = '${sessionScope.sessionID}';
+		
+		if(userId == "" || userId == null){
+			alert("Please Sign In first");
+			return false;
+		} else {
+			window.name = "parentForm";
+			window.open("CommentReplyFormAction.co?num="+comment_num,
+					"replyForm", "width=570, height=350, resizable = no, scrollbars = no");
+		}
+		
+	}
+	
 </script>
 </head>
 <body>
@@ -149,7 +165,6 @@
 			</table>
 		</div>
 		<br> <br>
-		<!-- comment 댓글 부분 Comment 클릭시 보이도록 할것 -->
 		<div id="comment">
 			<table id="commentBoard">
 				<c:if test="${requestScope.commentList != null}">
@@ -157,16 +172,21 @@
 						<tr>
 							<td width="150">
 								<div>
-									${comment.reply_id} <br> <font size="2" color="darkgrey">${comment.reply_date}</font>
+									<c:if test="${comment.comment_parent > 0}">
+										<b>Re</b>
+									</c:if>
+									${comment.comment_id} <br> <font size="2" color="darkgrey">${comment.comment_date}</font>
 								</div>
 							</td>
 							<td width="550">
-								<div class="text_wrapper">${comment.reply_content};</div>
+								<div class="text_wrapper">
+								${comment.comment_content}
+								</div>
 							</td>
 							<td width="100">
 								<div id="btn" style="text-align: center;">
-									<a href="#">[Comment]</a>
-									<c:if test="${comment.reply_id == sessionScope.sessionID}">
+									<a href="#" onclick="cmReplyOpen(${comment.comment_num})">[Comment]</a>
+									<c:if test="${comment.comment_id == sessionScope.sessionID}">
 										<!-- 작성자만 수정,삭제 가능 -->
 										<a href="#">[Modify]</a>
 										<a href="#">[Delete]</a>
@@ -178,29 +198,29 @@
 				</c:if>
 				<!-- 로그인 시에만 댓글 작성 가능 -->
 				<c:if test="${sessionScope.sessionID !=null}">
-						<form id="writeCommentForm">
-							<input type="hidden" name="comment_board"
-								value="${board.board_num}"> <input type="hidden"
-								name="comment_id" value="${sessionScope.sessionID}">
-							<!-- 아이디-->
-							<td width="150">
-								<div>${sessionScope.sessionID}</div>
-							</td>
-							<!-- 본문 작성-->
-							<td width="550">
-								<div>
-									<textarea name="comment_content" rows="4" cols="70"></textarea>
-								</div>
-							</td>
-							<!-- 댓글 등록 버튼 -->
-							<td width="100">
-								<div id="btn" style="text-align: center;">
-									<p>
-										<a href="#" onclick="writeCmt()">[Comment]</a>
-									</p>
-								</div>
-							</td>
-						</form>
+					<form id="writeCommentForm">
+						<input type="hidden" name="comment_board"
+							value="${board.board_num}"> <input type="hidden"
+							name="comment_id" value="${sessionScope.sessionID}">
+						<!-- 아이디-->
+						<td width="150">
+							<div>${sessionScope.sessionID}</div>
+						</td>
+						<!-- 본문 작성-->
+					<td width="550">
+						<div>
+							<textarea name="comment_content" rows="4" cols="70"></textarea>
+						</div>
+					</td>
+					<!-- 댓글 등록 버튼 -->
+					<td width="100">
+						<div id="btn" style="text-align: center;">
+							<p>
+								<a href="#" onclick="writeCmt()">[Comment]</a>
+							</p>
+						</div>
+					</td>
+					</form>
 				</c:if>
 			</table>
 		</div>

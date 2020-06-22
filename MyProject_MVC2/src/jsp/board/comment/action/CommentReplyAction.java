@@ -10,37 +10,38 @@ import jsp.board.comment.model.CommentDAO;
 import jsp.common.action.Action;
 import jsp.common.action.ActionForward;
 
-public class CommentWriteAction implements Action {
-	
+public class CommentReplyAction implements Action {
+
 	@Override
-	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		
-		CommentDAO dao = new CommentDAO();
-		CommentBean comment = new CommentBean();
-		
+	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		int comment_num = Integer.parseInt(request.getParameter("comment_num"));
 		int comment_board = Integer.parseInt(request.getParameter("comment_board"));
 		String comment_id = request.getParameter("comment_id");
 		String comment_content = request.getParameter("comment_content");
 
-		System.out.println(comment_board);
-		System.out.println(comment_id);
-		System.out.println(comment_content);
-		
+		CommentDAO dao = new CommentDAO();
+
+		CommentBean comment = new CommentBean();
 		comment.setComment_board(comment_board);
 		comment.setComment_id(comment_id);
 		comment.setComment_content(comment_content);
-		
+		comment.setComment_parent(comment_num);
+
 		boolean result = dao.insertComment(comment);
-		
-		if(result) {
-			response.setContentType("text/html;charset=utf-8");
-			PrintWriter out = response.getWriter();
+
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+
+		if (result) {
 			out.println("1");
-			out.close();
+		} else {
+			out.println("0");
 		}
-		
+
+		out.close();
+
 		return null;
-		
 	}
 
 }
