@@ -27,12 +27,12 @@ table {
 		}
 
 		if (!document.userInfo.password.value) {
-			alert("Insert PassWord.");
+			alert("Insert Password.");
 			return false;
 		}
 
 		if (document.userInfo.password.value != document.userInfo.passwordcheck.value) {
-			alert("PassWord not same.");
+			alert("Password not same.");
 			return false;
 		}
 
@@ -114,13 +114,13 @@ table {
 			</tr>
 
 			<tr>
-				<td id="title">PassWord</td>
+				<td id="title">Password</td>
 				<td><input type="password" name="password" maxlength="15"
 					onchange="passCheck()"></td>
 			</tr>
 
 			<tr>
-				<td id="title">PassWord Check</td>
+				<td id="title">Password Check</td>
 				<td><input type="password" name="passwordcheck" maxlength="15"
 					onchange="passCheck()"></td>
 					<td> <span id="sametext"></span></td>
