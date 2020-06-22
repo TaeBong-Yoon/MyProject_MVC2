@@ -66,6 +66,41 @@ public class MemberDAO {
 		}
 
 	}
+	
+	public boolean duplicateIdCheck(String id) {
+		
+		conn = null;
+		pstmt = null;
+		rs = null;
+		db = null;
+		boolean result = false;
+		
+		try {
+			
+			StringBuffer sql = new StringBuffer();
+			sql.append("SELECT id FROM jsp_member");
+			db = DBConnection.getInstance();
+			conn = db.getConnection();
+			pstmt = conn.prepareStatement(sql.toString());
+			rs = pstmt.executeQuery();
+
+			while(rs.next()) {
+				if(rs.getString("id").equals(id)) {
+					result = true;
+					break;
+				}
+			}
+			
+			DBConnection.close(rs);
+			DBConnection.close(pstmt);
+			DBConnection.close(conn);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+		
+	}
 
 	public MemberBean getUserInfo(String id) {
 		conn = null;

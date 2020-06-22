@@ -10,6 +10,7 @@ table {
 	margin-left: auto;
 	margin-right: auto;
 }
+
 #title {
 	font-weight: bold;
 }
@@ -20,6 +21,10 @@ table {
 			alert("Insert ID.");
 			return false;
 		}
+		if (form.idDuplication.value != "idCheck") {
+			alert("Check Duplicate ID");
+			return false;
+		}
 
 		if (!document.userInfo.password.value) {
 			alert("Insert PassWord.");
@@ -28,6 +33,40 @@ table {
 
 		if (document.userInfo.password.value != document.userInfo.passwordcheck.value) {
 			alert("PassWord not same.");
+			return false;
+		}
+
+		if (!form.name.value) {
+			alert("Input Name");
+			return false;
+		}
+		if (!form.birthdd.value || !form.birthmm.value == "00"
+				|| !form.birthyy.value) {
+			alert("Input Birthday");
+			return false;
+		}
+		if (isNaN(form.birthdd.value) == false) {
+			alert("You have to input number in Birthday");
+			return false;
+		}
+		if (isNaN(form.birthyy.value) == false) {
+			alert("You have to input number in Birthday");
+			return false;
+		}
+		if (!form.mail1.value) {
+			alert("Input E-Mail");
+			return false;
+		}
+		if (!form.phone.value) {
+			alert("Input Phone number");
+			return false;
+		}
+		if (isNaN(form.phone.value) == false) {
+			alert("You have to input number in Phone");
+			return false;
+		}
+		if (!form.address.value) {
+			alert("Input Address");
 			return false;
 		}
 	}
@@ -43,6 +82,15 @@ table {
 	function goFirstForm() {
 		location.href = "MainForm.do";
 	}
+
+	function openIdChk() {
+		window.name = "parentForm";
+		window.open("member/IdCheckForm.jsp", "chkForm",
+				"width=500, height=300, resizable = no, scrollbars= no");
+	}
+	function inputIdChk() {
+		document.userInfo.idDuplication.value = "idUncheck";
+	}
 </script>
 
 </head>
@@ -54,14 +102,15 @@ table {
 	<br>
 	<br>
 	<br>
-	<form method="post"
-		action="MemberJoinAction.do"
-		name="userInfo" onsubmit="return checkValue()">
+	<form method="post" action="MemberJoinAction.do" name="userInfo"
+		onsubmit="return checkValue()">
 		<table>
 			<tr>
 				<td id="title">ID</td>
-				<td><input type="text" name="id" maxlength="20"> <input
-					type="button" value="ID Check"></td>
+				<td><input type="text" name="id" maxlength="20" onkeydown="inputIdChk()" readonly> <input
+					type="button" value="ID Check" onclick="openIdChk()">
+				<input type="hidden" name="idDuplication" value="idUncheck">
+				</td>
 			</tr>
 
 			<tr>
@@ -73,7 +122,8 @@ table {
 			<tr>
 				<td id="title">PassWord Check</td>
 				<td><input type="password" name="passwordcheck" maxlength="15"
-					onchange="passCheck()"> <span id="sametext"></span></td>
+					onchange="passCheck()"></td>
+					<td> <span id="sametext"></span></td>
 			</tr>
 
 			<tr>
