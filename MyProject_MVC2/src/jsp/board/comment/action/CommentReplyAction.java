@@ -28,7 +28,7 @@ public class CommentReplyAction implements Action {
 		comment.setComment_content(comment_content);
 		comment.setComment_parent(comment_num);
 
-		boolean result = dao.insertComment(comment);
+		boolean result = dao.insertReComment(comment);
 
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();

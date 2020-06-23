@@ -26,6 +26,8 @@ public class BoardListAction implements Action {
 		
 		if(page != null) {
 			spage = Integer.parseInt(page);
+		} else if(page == null) {
+			spage = 1;
 		}
 		
 		// 검색조건, 내용을 가져온다
@@ -36,7 +38,8 @@ public class BoardListAction implements Action {
 		HashMap<String,Object> listOpt = new HashMap<String,Object>();
 		listOpt.put("opt", opt);
 		listOpt.put("condition", condition);
-		listOpt.put("start", spage*5-4);
+//		listOpt.put("start", spage*5-4);
+		listOpt.put("start", spage);
 		
 		BoardDAO dao = new BoardDAO();
 		int listCount = dao.getBoardListCount(listOpt);

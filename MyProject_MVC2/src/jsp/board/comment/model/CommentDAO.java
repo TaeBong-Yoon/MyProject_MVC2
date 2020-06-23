@@ -25,6 +25,44 @@ public class CommentDAO {
 
 			StringBuffer sql = new StringBuffer();
 			sql.append("INSERT INTO board_comment");
+			sql.append(" (comment_board,comment_id,comment_date,comment_content)");
+			sql.append(" VALUES (?,?,NOW(),?)");
+
+			db = DBConnection.getInstance();
+			conn = db.getConnection();
+			pstmt = conn.prepareStatement(sql.toString());
+
+			pstmt.setInt(1, comment.getComment_board());
+			pstmt.setString(2, comment.getComment_id());
+			pstmt.setString(3, comment.getComment_content());
+
+			int flag = pstmt.executeUpdate();
+			if (flag > 0) {
+				result = true;
+			}
+
+			DBConnection.close(pstmt);
+			DBConnection.close(conn);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
+
+	}
+	
+	public boolean insertReComment(CommentBean comment) {
+
+		conn = null;
+		pstmt = null;
+		db = null;
+		boolean result = false;
+
+		try {
+
+			StringBuffer sql = new StringBuffer();
+			sql.append("INSERT INTO board_comment");
 			sql.append(" (comment_board,comment_id,comment_date,comment_parent,comment_content)");
 			sql.append(" VALUES (?,?,NOW(),?,?)");
 

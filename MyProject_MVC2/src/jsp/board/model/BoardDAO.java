@@ -101,26 +101,6 @@ public class BoardDAO {
 		return result;
 	}
 
-	// 댓글 삽입 위한 메소드
-	public boolean replyInsert(BoardBean board) {
-
-		boolean result = false;
-		conn = null;
-		pstmt = null;
-		db = null;
-
-		try {
-
-			StringBuffer sql = new StringBuffer();
-			sql.append("Insert board_reply");
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return result;
-	}
-
 	// DB에서 글 목록 가져오기
 	public ArrayList<BoardBean> getBoardList(HashMap<String, Object> listOpt) {
 
@@ -146,65 +126,69 @@ public class BoardDAO {
 			// 글 목록 전체를 보여줄 때
 			if (opt == null) {
 				// board_num 을 내림차순 후 화면에 보여줄 갯수까지 가져온다.(5개까지 설정함)
-				sql.append(
-						"SELECT * FROM member_board WHERE board_num >=? AND board_num <=? ORDER BY board_num DESC LIMIT 5;");
-//				sql.append("SELECT * FROM member_board ORDER BY board_num DESC LIMIT ?,?");
+//				sql.append(
+//						"SELECT * FROM member_board WHERE board_num >=? AND board_num <=? ORDER BY board_num DESC LIMIT 5;");
+				sql.append("SELECT * FROM member_board ORDER BY board_num DESC LIMIT ?,?");
 				pstmt = conn.prepareStatement(sql.toString());
-				pstmt.setInt(1, start);
-				pstmt.setInt(2, start + 4);
+				pstmt.setInt(1, (start-1)*5);
+				pstmt.setInt(2, 5);
 
 				// sql을 비워준다.
 				sql.delete(0, sql.toString().length());
 			} else if (opt.equals("0")) {
 				// 제목으로 검색할 때
 				// where 조건 and 조건 and 조건 활용
-				sql.append("SELECT * FROM ");
-				sql.append("member_board WHERE board_subject LIKE ? AND ");
-				sql.append("board_num >= ? AND board_num <=? ORDER BY board_num DESC LIMIT 5;");
+//				sql.append("SELECT * FROM ");
+//				sql.append("member_board WHERE board_subject LIKE ? AND ");
+//				sql.append("board_num >= ? AND board_num <=? ORDER BY board_num DESC LIMIT 5;");
 
+				sql.append("SELECT * FROM ");
+				sql.append("member_board WHERE board_subject LIKE ? ");
+				sql.append("ORDER BY board_num DESC LIMIT ?,?;");
+				
 				pstmt = conn.prepareStatement(sql.toString());
 				pstmt.setString(1, '%' + condition + '%');
-				pstmt.setInt(2, start);
-				pstmt.setInt(3, start + 4);
+				pstmt.setInt(2, (start-1)*5);
+				pstmt.setInt(3, 5);
 
 				sql.delete(0, sql.toString().length());
 			} else if (opt.equals("1")) {
 				// 내용으로 검색할 때
 				// 위와 구조 동일, board_content로 검색
 				sql.append("SELECT * FROM ");
-				sql.append("member_board WHERE board_content LIKE ? AND ");
-				sql.append("board_num >= ? AND board_num <=? ORDER BY board_num DESC LIMIT 5;");
+				sql.append("member_board WHERE board_content LIKE ? ");
+				sql.append("ORDER BY board_num DESC LIMIT ?,?;");
 
 				pstmt = conn.prepareStatement(sql.toString());
 				pstmt.setString(1, '%' + condition + '%');
-				pstmt.setInt(2, start);
-				pstmt.setInt(3, start + 4);
+				pstmt.setInt(2, (start-1)*5);
+				pstmt.setInt(3, 5);
 
 				sql.delete(0, sql.toString().length());
 			} else if (opt.equals("2")) {
 				// 제목 + 내용으로 검색할 때
 				// 위와 구조 동일, board_subject or board_content로 조건 설정
 				sql.append("SELECT * FROM ");
-				sql.append("member_board WHERE (board_subject LIKE ? OR board_content LIKE ?) AND ");
-				sql.append("board_num >= ? AND board_num <=? ORDER BY board_num DESC LIMIT 5;");
+				sql.append("member_board WHERE (board_subject LIKE ? OR board_content LIKE ?) ");
+				sql.append("ORDER BY board_num DESC LIMIT ?,?;");
 
 				pstmt = conn.prepareStatement(sql.toString());
 				pstmt.setString(1, '%' + condition + '%');
 				pstmt.setString(2, '%' + condition + '%');
-				pstmt.setInt(3, start);
-				pstmt.setInt(4, start + 4);
+				pstmt.setInt(3, (start-1)*5);
+				pstmt.setInt(4, 5);
 
 				sql.delete(0, sql.toString().length());
 			} else if (opt.equals("3")) {
 				// 글쓴이로 검색할 때
 				sql.append("SELECT * FROM ");
-				sql.append("member_board WHERE board_id LIKE ? AND ");
-				sql.append("board_num >= ? AND board_num <=? ORDER BY board_num DESC LIMIT 5;");
+				sql.append("member_board WHERE board_id LIKE ? ");
+				sql.append("ORDER BY board_num DESC LIMIT ?,?;");
 
 				pstmt = conn.prepareStatement(sql.toString());
 				pstmt.setString(1, '%' + condition + '%');
-				pstmt.setInt(2, start);
-				pstmt.setInt(3, start + 4);
+				pstmt.setInt(2, (start-1)*5);
+				pstmt.setInt(3, 5);
 
 				sql.delete(0, sql.toString().length());
 			}

@@ -55,12 +55,7 @@
 				<c:forEach var="board" items="${requestScope.list}">
 					<tr>
 						<td>${board.board_num}</td>
-						<td align="left"><c:if test="${board.board_re_lev > 0}">
-								<c:forEach begin="1" end="${board.board_re_lev}">
-							&nbsp;&nbsp; <!-- 답변글인 경우 - 제목 앞 공백 추가 -->
-								</c:forEach>
-								RE :
-							</c:if> <a
+						<td align="left"><a
 							href="BoardDetailAction.bo?num=${board.board_num}&pageNum=${spage}">
 								${board.board_subject} </a></td>
 						<td><a href="#">${board.board_id}</a></td>
@@ -74,7 +69,7 @@
 		<!-- 페이지 넘버링 부분 -->
 		<div id="pageForm">
 			<c:if test="${startPage != 1}">
-				<a href='BoardListAction.bo?page=${startPAge-1}'>[ Previous ]</a>
+				<a href='BoardListAction.bo?page=${startPage-1}'>[ Previous ]</a>
 			</c:if>
 
 			<c:forEach var="pageNum" begin="${startPage}" end="${endPage}">
