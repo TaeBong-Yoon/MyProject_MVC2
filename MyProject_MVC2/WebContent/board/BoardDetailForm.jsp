@@ -122,6 +122,35 @@
 		
 	}
 	
+	function cmDeleteOpen(comment_num){
+		
+		var msg = confirm("Are you sure?");
+		if(msg == true){ // 확인 누를경우
+			deleteCmt(comment_num);
+		} else {
+			return false;
+		}
+		
+	}
+	
+	function deleteCmt(comment_num){
+		
+		var param = "comment_num="+comment_num;
+		
+		httpRequest = getXMLHttpRequest();
+		httpRequest.onreadystatechange = checkFunc;
+		httpRequest.open("POST", "CommentDeleteAction.co", true);
+		httpRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
+		httpRequest.send(param);
+		
+	}
+	
+	function cmUpdateOpen(comment_num){
+		window.name = "parentForm";
+		window.open("CommentUpdateFormAction.co?num="+comment_num,
+				"updateForm","width=570, height=350, resizable=no,scrollbars=no");
+	}
+	
 </script>
 </head>
 <body>
@@ -158,7 +187,6 @@
 								<input type="button" value="Modify" onclick="doAction(0)">
 								<input type="button" value="Delete" onclick="doAction(1)">
 							</c:if>
-							<!-- <input type="button" value="Comment" onclick="changeView(1)"> -->
 						</c:if> <input type="button" value="List" onclick="changeView(0)">
 					</td>
 				</tr>
@@ -179,17 +207,15 @@
 								</div>
 							</td>
 							<td width="550">
-								<div class="text_wrapper">
-								${comment.comment_content}
-								</div>
+								<div class="text_wrapper">${comment.comment_content}</div>
 							</td>
 							<td width="100">
 								<div id="btn" style="text-align: center;">
 									<a href="#" onclick="cmReplyOpen(${comment.comment_num})">[Comment]</a>
 									<c:if test="${comment.comment_id == sessionScope.sessionID}">
 										<!-- 작성자만 수정,삭제 가능 -->
-										<a href="#">[Modify]</a>
-										<a href="#">[Delete]</a>
+										<a href="#" onclick="cmUpdateOpen(${comment.comment_num})">[Modify]</a>
+										<a href="#" onclick="cmDeleteOpen(${comment.comment_num})">[Delete]</a>
 									</c:if>
 								</div>
 							</td>
@@ -207,19 +233,19 @@
 							<div>${sessionScope.sessionID}</div>
 						</td>
 						<!-- 본문 작성-->
-					<td width="550">
-						<div>
-							<textarea name="comment_content" rows="4" cols="70"></textarea>
-						</div>
-					</td>
-					<!-- 댓글 등록 버튼 -->
-					<td width="100">
-						<div id="btn" style="text-align: center;">
-							<p>
-								<a href="#" onclick="writeCmt()">[Comment]</a>
-							</p>
-						</div>
-					</td>
+						<td width="550">
+							<div>
+								<textarea name="comment_content" rows="4" cols="70"></textarea>
+							</div>
+						</td>
+						<!-- 댓글 등록 버튼 -->
+						<td width="100">
+							<div id="btn" style="text-align: center;">
+								<p>
+									<a href="#" onclick="writeCmt()">[Comment]</a>
+								</p>
+							</div>
+						</td>
 					</form>
 				</c:if>
 			</table>

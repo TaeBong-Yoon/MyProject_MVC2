@@ -36,7 +36,7 @@ public class CommentDAO {
 			pstmt.setString(2, comment.getComment_id());
 			pstmt.setInt(3, comment.getComment_parent());
 			pstmt.setString(4, comment.getComment_content());
-			
+
 			int flag = pstmt.executeUpdate();
 			if (flag > 0) {
 				result = true;
@@ -52,29 +52,29 @@ public class CommentDAO {
 		return result;
 
 	}
-	
-	public ArrayList<CommentBean> getCommentList(int boardNum){
-		
+
+	public ArrayList<CommentBean> getCommentList(int boardNum) {
+
 		conn = null;
 		pstmt = null;
 		rs = null;
 		db = null;
 		ArrayList<CommentBean> list = new ArrayList<CommentBean>();
-		
-		try { 
-			
+
+		try {
+
 			StringBuffer sql = new StringBuffer();
 			sql.append("SELECT * FROM board_comment WHERE comment_board = ? ORDER BY comment_num ASC");
-			
+
 			db = DBConnection.getInstance();
 			conn = db.getConnection();
 			pstmt = conn.prepareStatement(sql.toString());
-			
+
 			pstmt.setInt(1, boardNum);
-			
+
 			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
+
+			while (rs.next()) {
 				CommentBean comment = new CommentBean();
 				comment.setComment_num(rs.getInt("comment_num"));
 				comment.setComment_board(rs.getInt("comment_board"));
@@ -82,42 +82,42 @@ public class CommentDAO {
 				comment.setComment_date(rs.getDate("comment_date"));
 				comment.setComment_parent(rs.getInt("comment_parent"));
 				comment.setComment_content(rs.getString("comment_content"));
-				
+
 				list.add(comment);
 			}
-			
+
 			DBConnection.close(rs);
 			DBConnection.close(pstmt);
 			DBConnection.close(conn);
-			
-		} catch(Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return list;
 	}
-	
+
 	public CommentBean getComment(int comment_num) {
-		
+
 		conn = null;
 		pstmt = null;
 		rs = null;
 		db = null;
 		CommentBean comment = null;
-		
+
 		try {
-			
+
 			StringBuffer sql = new StringBuffer();
 			sql.append("SELECT * FROM board_comment WHERE comment_num = ?");
-			
+
 			db = DBConnection.getInstance();
 			conn = db.getConnection();
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setInt(1, comment_num);
-			
+
 			rs = pstmt.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				comment = new CommentBean();
-				
+
 				comment.setComment_num(rs.getInt("comment_num"));
 				comment.setComment_board(rs.getInt("comment_board"));
 				comment.setComment_id(rs.getString("comment_id"));
@@ -125,15 +125,83 @@ public class CommentDAO {
 				comment.setComment_date(rs.getDate("comment_date"));
 				comment.setComment_parent(rs.getInt("comment_parent"));
 			}
-			
+
 			DBConnection.close(rs);
 			DBConnection.close(pstmt);
 			DBConnection.close(conn);
-			
-		} catch(Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return comment;
+	}
+
+	public boolean deleteComment(int comment_num) {
+
+		conn = null;
+		pstmt = null;
+		db = null;
+		boolean result = false;
+
+		try {
+
+			StringBuffer sql = new StringBuffer();
+			sql.append("DELETE FROM board_comment WHERE comment_num = ? OR comment_parent = ?");
+
+			db = DBConnection.getInstance();
+			conn = db.getConnection();
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setInt(1, comment_num);
+			pstmt.setInt(2, comment_num);
+
+			int flag = pstmt.executeUpdate();
+
+			if (flag > 0) {
+				result = true;
+			}
+
+			DBConnection.close(pstmt);
+			DBConnection.close(conn);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+	public boolean updateComment(CommentBean comment) {
+
+		conn = null;
+		pstmt = null;
+		db = null;
+		boolean result = false;
+
+		try {
+
+			StringBuffer sql = new StringBuffer();
+			sql.append("UPDATE board_comment SET ");
+			sql.append("comment_content = ? ");
+			sql.append("WHERE comment_num = ?");
+
+			db = DBConnection.getInstance();
+			conn = db.getConnection();
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setString(1, comment.getComment_content());
+			pstmt.setInt(2, comment.getComment_num());
+
+			int flag = pstmt.executeUpdate();
+			if (flag > 0) {
+				result = true;
+			}
+
+			DBConnection.close(pstmt);
+			DBConnection.close(conn);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 }

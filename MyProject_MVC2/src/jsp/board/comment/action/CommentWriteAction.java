@@ -22,10 +22,6 @@ public class CommentWriteAction implements Action {
 		String comment_id = request.getParameter("comment_id");
 		String comment_content = request.getParameter("comment_content");
 
-		System.out.println(comment_board);
-		System.out.println(comment_id);
-		System.out.println(comment_content);
-		
 		comment.setComment_board(comment_board);
 		comment.setComment_id(comment_id);
 		comment.setComment_content(comment_content);
