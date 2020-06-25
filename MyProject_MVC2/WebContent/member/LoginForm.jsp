@@ -34,6 +34,11 @@ table {
 			return false;
 		}
 	}
+	// 로그인 상태에서 뒤로가기 방지 코드
+	window.history.forward();
+	function noBack() {
+		window.history.forward();
+	}
 </script>
 </head>
 <body>
