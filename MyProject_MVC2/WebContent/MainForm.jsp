@@ -10,23 +10,23 @@
 
 <style>
 #wrap {
-	width: 800px;
+	width: 99%;
 	margin: 0 auto 0 auto;
 }
 
 #header {
 	text-align: center;
-	width: 800px;
+	width: 99%;
 	height: 150px;
-	background-color: tomato;
+	background-color: darkgrey;
 	padding: 60px 0px;
 }
 
 #main {
 	float: left;
-	width: 800px;
+	width: 99%;
 	height: 500px;
-	background-color: wheat;
+	background-color: white;
 	text-align: center;
 	vertical-align: middle;
 	overflow: auto;
@@ -34,9 +34,9 @@
 
 #footer {
 	clear: left;
-	width: 800px;
+	width: 99%;
 	height: 60px;
-	background-color: tomato;
+	background-color: darkgrey;
 }
 </style>
 

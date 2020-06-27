@@ -10,7 +10,7 @@ import java.sql.Statement;
 public class DBConnection {
 
 	private static final String db_username = "root";
-	private static final String db_password = "111111";
+	private static final String db_password = "dbsxogus";
 	private static final String db_url = "jdbc:mysql://localhost:3306/mydb?useUnicode=true&characterEncoding=UTF-8&useSSL=false";
 
 	private static DBConnection instance;

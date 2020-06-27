@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 <style type="text/css">
 #wrap {
-	width: 800px;
+	width: 99%;
 	margin: 0 auto 0 auto;
 }
 
@@ -18,12 +18,12 @@
 
 #board, #pageForm, #serchForm {
 	text-align: center;
+	padding : 0 20%;
 }
 
 #bList {
 	text-align: center;
-	width: 800px;
-	border: 1px solid tomato;
+	width: 700px;
 }
 </style>
 <script type="text/javascript">

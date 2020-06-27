@@ -9,12 +9,8 @@ public class BoardBean {
 	private String board_subject; // 글 제목
 	private String board_content; // 글 내용
 	private String board_file; // 첨부파일 이름
-	private int board_re_ref; // 글 그룹번호
-	private int board_re_lev; // 답변글 깊이
-	private int board_re_seq; // 답변글 순서
 	private int board_count; // 글 조회수
 	private Date board_date; // 글 작성일
-	private int board_parent; // 부모글 번호(댓글 작성시)
 
 	public int getBoard_num() {
 		return board_num;
@@ -56,30 +52,6 @@ public class BoardBean {
 		this.board_file = board_file;
 	}
 
-	public int getBoard_re_ref() {
-		return board_re_ref;
-	}
-
-	public void setBoard_re_ref(int board_re_ref) {
-		this.board_re_ref = board_re_ref;
-	}
-
-	public int getBoard_re_lev() {
-		return board_re_lev;
-	}
-
-	public void setBoard_re_lev(int board_re_lev) {
-		this.board_re_lev = board_re_lev;
-	}
-
-	public int getBoard_re_seq() {
-		return board_re_seq;
-	}
-
-	public void setBoard_re_seq(int board_re_seq) {
-		this.board_re_seq = board_re_seq;
-	}
-
 	public int getBoard_count() {
 		return board_count;
 	}
@@ -94,14 +66,6 @@ public class BoardBean {
 
 	public void setBoard_date(Date board_date) {
 		this.board_date = board_date;
-	}
-
-	public int getBoard_parent() {
-		return board_parent;
-	}
-
-	public void setBoard_parent(int board_parent) {
-		this.board_parent = board_parent;
 	}
 
 }

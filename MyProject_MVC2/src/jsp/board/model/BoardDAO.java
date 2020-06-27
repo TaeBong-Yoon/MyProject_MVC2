@@ -61,20 +61,15 @@ public class BoardDAO {
 
 			StringBuffer sql = new StringBuffer();
 			sql.append("INSERT INTO member_board (board_num,board_id,board_subject,board_content,board_file,");
-			sql.append("Board_re_ref,Board_count,Board_date, board_parent)");
-			sql.append(" VALUES (?,?,?,?,?,?,?,now(),?);");
+			sql.append("board_count,Board_date)");
+			sql.append(" VALUES (?,?,?,?,?,?,now());");
 			db = DBConnection.getInstance();
 			conn = db.getConnection();
 
 			// num 값을 글번호와 그룹번호로 사용한다
 			int num = board.getBoard_num();
-			int ref = board.getBoard_re_ref();
-			int parent = board.getBoard_parent();
 
 			// 부모글의 경우 그룹번호와 글번호가 동일!
-			if (parent == 0) {
-				ref = num;
-			}
 
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setInt(1, num);
@@ -82,9 +77,7 @@ public class BoardDAO {
 			pstmt.setString(3, board.getBoard_subject());
 			pstmt.setString(4, board.getBoard_content());
 			pstmt.setString(5, board.getBoard_file());
-			pstmt.setInt(6, ref);
-			pstmt.setInt(7, board.getBoard_count());
-			pstmt.setInt(8, parent);
+			pstmt.setInt(6, board.getBoard_count());
 
 			int flag = pstmt.executeUpdate();
 
@@ -126,8 +119,6 @@ public class BoardDAO {
 			// 글 목록 전체를 보여줄 때
 			if (opt == null) {
 				// board_num 을 내림차순 후 화면에 보여줄 갯수까지 가져온다.(5개까지 설정함)
-//				sql.append(
-//						"SELECT * FROM member_board WHERE board_num >=? AND board_num <=? ORDER BY board_num DESC LIMIT 5;");
 				sql.append("SELECT * FROM member_board ORDER BY board_num DESC LIMIT ?,?");
 				pstmt = conn.prepareStatement(sql.toString());
 				pstmt.setInt(1, (start-1)*5);
@@ -138,9 +129,6 @@ public class BoardDAO {
 			} else if (opt.equals("0")) {
 				// 제목으로 검색할 때
 				// where 조건 and 조건 and 조건 활용
-//				sql.append("SELECT * FROM ");
-//				sql.append("member_board WHERE board_subject LIKE ? AND ");
-//				sql.append("board_num >= ? AND board_num <=? ORDER BY board_num DESC LIMIT 5;");
 
 				sql.append("SELECT * FROM ");
 				sql.append("member_board WHERE board_subject LIKE ? ");
@@ -203,9 +191,6 @@ public class BoardDAO {
 				board.setBoard_content(rs.getString("board_content"));
 				board.setBoard_file(rs.getString("board_file"));
 				board.setBoard_count(rs.getInt("board_count"));
-				board.setBoard_re_ref(rs.getInt("board_re_ref"));
-				board.setBoard_re_lev(rs.getInt("board_re_lev"));
-				board.setBoard_re_seq(rs.getInt("board_re_seq"));
 				board.setBoard_date(rs.getDate("board_date"));
 				list.add(board);
 			}
@@ -328,9 +313,6 @@ public class BoardDAO {
 				board.setBoard_content(rs.getString("board_content"));
 				board.setBoard_file(rs.getString("board_file"));
 				board.setBoard_count(rs.getInt("board_count"));
-				board.setBoard_re_ref(rs.getInt("Board_re_ref"));
-				board.setBoard_re_lev(rs.getInt("Board_re_lev"));
-				board.setBoard_re_seq(rs.getInt("Board_re_seq"));
 				board.setBoard_date(rs.getDate("Board_date"));
 			}
 
@@ -373,46 +355,6 @@ public class BoardDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return result;
-	}
-
-	// 댓글 순서 처리
-	public boolean updateReSeq(BoardBean board) {
-
-		boolean result = false;
-		// 원본글의 번호(그룹 번호)
-		int ref = board.getBoard_re_ref();
-		// 답변글의 순서
-		int seq = board.getBoard_re_seq();
-
-		conn = null;
-		pstmt = null;
-		db = null;
-
-		try {
-			StringBuffer sql = new StringBuffer();
-			sql.append("UPDATE member_board SET board_re_seq = board_re_seq+1");
-			sql.append("WHERE board_re_ref = ? AND BOARD_RE_SEQ > ?");
-
-			db = DBConnection.getInstance();
-			conn = db.getConnection();
-
-			pstmt = conn.prepareStatement(sql.toString());
-			pstmt.setInt(1, ref);
-			pstmt.setInt(2, seq);
-
-			int flag = pstmt.executeUpdate();
-			if (flag > 0) {
-				result = true;
-			}
-
-			DBConnection.close(pstmt);
-			DBConnection.close(conn);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 		return result;
 	}
 
